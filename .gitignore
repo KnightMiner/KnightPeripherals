@@ -1,0 +1,51 @@
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# gradle stuff
+/.gradle
+/.settings
+/build/
+/run/
+/bin/
+/libs/
+
+# Eclipse stuff
+/.classpath
+/.project
+
+# api files
+/api/
+
+# forge stuff
+eclipse/
+CREDITS-fml.txt
+forge*
+Forge*
+MinecraftForge*
+README.txt
+LICENSE-fml.txt
+logs/
+
+# OS stuff
+*/.DS_Store
+.DS_Store
+.DS_Store?
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
