@@ -6,11 +6,11 @@ KnightPeripherals is a mod by KnightMiner. It is an addon to the popular [Minecr
 
 For more information, see this mods [ComputerCraft forum thread](http://www.computercraft.info/forums2/index.php?/topic/25803-).
 
-# Download
+## Download
 
 For the latest released version, visit [this mod's CurseForge page](http://minecraft.curseforge.com/projects/knightperipherals).
 
-# Credits
+## Credits
 
 * [KnightMiner](https://github.com/KnightMiner): Main mod developer
 * [austinv11](https://github.com/austinv11): Wrote several helper functions for Turtles, used under terms of his [license](https://github.com/austinv11/PeripheralsPlusPlus/blob/master/LICENSE.md).
