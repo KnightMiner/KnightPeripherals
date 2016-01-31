@@ -63,14 +63,14 @@ public class TaskClawClick implements ILuaTask {
 		// queue event, and cancel if the event is canceled
 		PlayerInteractEvent event = ForgeEventFactory.onPlayerInteract(fakePlayer, Action.RIGHT_CLICK_BLOCK, x, y, z, side, turtle.getWorld());
 		if (event.isCanceled()) {
-            return new Object[]{ false };
-        }
+			return new Object[]{ false, "Click event canceled" };
+		}
 		
 		// first try an item which is used before a block is activated
 		Boolean clicked = false;
 		if (item != null) {
-            clicked = item.onItemUseFirst(stack, fakePlayer, world, x, y, z, side, clickPoint.getX(), clickPoint.getY(), clickPoint.getZ());
-        }
+			clicked = item.onItemUseFirst(stack, fakePlayer, world, x, y, z, side, clickPoint.getX(), clickPoint.getY(), clickPoint.getZ());
+		}
 		
 		// next, try the block directly
 		if (!clicked)
@@ -79,8 +79,8 @@ public class TaskClawClick implements ILuaTask {
 		}
 		// if that did not work, try the item's main action
 		if (!clicked && (item != null)) {
-            clicked = item.onItemUse(stack, fakePlayer, world, x, y, z, side, clickPoint.getX(), clickPoint.getY(), clickPoint.getZ());
-        }
+			clicked = item.onItemUse(stack, fakePlayer, world, x, y, z, side, clickPoint.getX(), clickPoint.getY(), clickPoint.getZ());
+		}
 		
 		// If enabled, remove some fuel
 		// We already validated it earlier
@@ -89,7 +89,7 @@ public class TaskClawClick implements ILuaTask {
 			turtle.consumeFuel(fuelCost);
 		}
 		
-		return new Object[]{ true };
+		return new Object[]{ true, clicked };
 	}
 
 }
