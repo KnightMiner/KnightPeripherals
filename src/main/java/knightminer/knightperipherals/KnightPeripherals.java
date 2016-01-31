@@ -23,18 +23,17 @@ import knightminer.knightperipherals.turtles.TurtleClaw;
 import knightminer.knightperipherals.turtles.TurtleExNihiloHammer;
 import net.minecraftforge.common.MinecraftForge;
 
-@Mod( modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION, dependencies = "required-after:ComputerCraft;after:exnihilo" )
+@Mod( modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION,
+	dependencies = "required-after:ComputerCraft;after:exnihilo;after:NotEnoughItems;" )
 public class KnightPeripherals {
-	
-	
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event ) {
 		Config.register(event.getSuggestedConfigurationFile());
-        
+
 		ModItems.register();
 		ModItems.addRecipes();
-        
+
 		// load block icons for turtles
 		Side side = FMLCommonHandler.instance().getEffectiveSide();
 		if(side == Side.CLIENT)
