@@ -14,9 +14,9 @@ public class ItemBase extends Item {
 	}
 	
 	@Override
-    public Item setTextureName(String string)
-    {
-        this.iconString = Reference.RESOURCE_LOCATION + ":" + string;
-        return this;
-    }
+	public Item setTextureName(String string)
+	{
+		this.iconString = Reference.RESOURCE_LOCATION + ":" + string;
+		return this;
+	}
 }

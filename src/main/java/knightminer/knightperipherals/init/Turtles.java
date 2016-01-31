@@ -27,17 +27,17 @@ public class Turtles {
 		{
 			ModLogger.logger.info( "Skipping registering clicking turtle, upgrade disabled");
 		}
-    	
-    	if ( Loader.isModLoaded( ModIds.EXNIHILO ) ) {
-    		if (Config.enableTurtleHammer)
-    		{
-    			ModLogger.logger.info("Found Ex Nihilo, registering hammer peripheral");
-    			ComputerCraftAPI.registerTurtleUpgrade( new TurtleExNihiloHammer() );
-    			list.add( Reference.UPGRADE_HAMMER);
-    		} else
-    		{
-    			ModLogger.logger.info("Skipping registering smashing turtle, upgrade disabled");
-    		}
-    	}
+		
+		if ( Loader.isModLoaded( ModIds.EXNIHILO ) ) {
+			if (Config.enableTurtleHammer)
+			{
+				ModLogger.logger.info("Found Ex Nihilo, registering hammer peripheral");
+				ComputerCraftAPI.registerTurtleUpgrade( new TurtleExNihiloHammer() );
+				list.add( Reference.UPGRADE_HAMMER);
+			} else
+			{
+				ModLogger.logger.info("Skipping registering smashing turtle, upgrade disabled");
+			}
+		}
 	}
 }

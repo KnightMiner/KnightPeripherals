@@ -24,10 +24,10 @@ public class TurtleUtil {
 	 * @param player the player whose position will change
 	 * @param turtle the turtle for the new coordinates
 	 */
-    public static void setPlayerPosition( FakePlayer player, ITurtleAccess turtle )
-    {
-    	player.setPosition(turtle.getPosition().posX, turtle.getPosition().posY, turtle.getPosition().posZ);
-    }
+	public static void setPlayerPosition( FakePlayer player, ITurtleAccess turtle )
+	{
+		player.setPosition(turtle.getPosition().posX, turtle.getPosition().posY, turtle.getPosition().posZ);
+	}
 	
 	/**
 	 * Adds an item to a turtle's inventory by finding the first available slot
@@ -126,23 +126,23 @@ public class TurtleUtil {
 	 * @return a Vector3f of the location
 	 */
 	public static Vector3f getCenterOfSide(ForgeDirection dir) {
-        switch (dir) {
-            case UP:
-                return new Vector3f(0.5f, 1f, 0.5f);
-            case DOWN:
-                return new Vector3f(0.5f, 0f, 0.5f);
-            case NORTH:
-                return new Vector3f(0.5f, 0.5f, 0f);
-            case SOUTH:
-                return new Vector3f(0.5f, 0.5f, 1f);
-            case WEST:
-                return new Vector3f(0f, 0.5f, 0.5f);
-            case EAST:
-                return new Vector3f(1f, 0.5f, 0.5f);
+		switch (dir) {
+			case UP:
+  			  return new Vector3f(0.5f, 1f, 0.5f);
+			case DOWN:
+				return new Vector3f(0.5f, 0f, 0.5f);
+			case NORTH:
+				return new Vector3f(0.5f, 0.5f, 0f);
+			case SOUTH:
+				return new Vector3f(0.5f, 0.5f, 1f);
+			case WEST:
+				return new Vector3f(0f, 0.5f, 0.5f);
+			case EAST:
+				return new Vector3f(1f, 0.5f, 0.5f);
 		default:
-	        return null;
-        }
-    }
+			return null;
+		}
+	}
 
 	/**
 	 * Finds the center to use for clicking a block
@@ -150,8 +150,8 @@ public class TurtleUtil {
 	 * @param side integer representing the side which is being clicked from
 	 * @return a Vector3f of the location
 	 */
-    public static Vector3f getCenterOfSide(int side) {
-        return getCenterOfSide(ForgeDirection.getOrientation(side));
-    }
-    
+	public static Vector3f getCenterOfSide(int side) {
+		return getCenterOfSide(ForgeDirection.getOrientation(side));
+	}
+	
 }
