@@ -17,13 +17,14 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.0"
-group= "knightminer.knightperipherals" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+version = "1.7.10-1.1pre"
+group = "knightminer.knightperipherals" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "KnightPeripherals"
 
 minecraft {
     version = "1.7.10-10.13.4.1614-1.7.10"
     runDir = "eclipse"
+    replace '${version}', project.version
 }
 
 dependencies {

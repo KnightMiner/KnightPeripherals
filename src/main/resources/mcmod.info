@@ -3,14 +3,14 @@
   "modid": "knightperipherals",
   "name": "KnightPeripherals",
   "description": "Adds additional turtle peripherals to ComputerCraft",
-  "version": "1.0",
+  "version": "${version}",
   "mcversion": "1.7.10",
-  "url": "",
+  "url": "http://minecraft.curseforge.com/projects/knightperipherals",
   "updateUrl": "",
   "authorList": ["KnightMiner"],
   "credits": "Special thanks to MrCrayfish, austinv11, and Cypher121 for reference for structure and some code.",
   "logoFile": "",
   "screenshots": [],
-  "dependencies": []
+  "dependencies": ["ComputerCraft"]
 }
 ]
