@@ -82,6 +82,12 @@ public class TaskClawClick implements ILuaTask {
 			clicked = item.onItemUse(stack, fakePlayer, world, x, y, z, side, clickPoint.getX(), clickPoint.getY(), clickPoint.getZ());
 		}
 		
+		// we don't want ghost stacks
+		if ( stack != null && stack.stackSize == 0 )
+		{
+			inv.setInventorySlotContents(slot, null);
+		}
+		
 		// If enabled, remove some fuel
 		// We already validated it earlier
 		if (fuelCost > 0 && turtle.isFuelNeeded())
