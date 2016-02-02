@@ -3,7 +3,6 @@ package knightminer.knightperipherals.init;
 import cpw.mods.fml.common.registry.GameRegistry;
 import knightminer.knightperipherals.items.ItemBase;
 import knightminer.knightperipherals.reference.Config;
-import knightminer.knightperipherals.reference.Reference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;

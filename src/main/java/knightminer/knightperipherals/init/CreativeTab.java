@@ -1,13 +1,11 @@
 package knightminer.knightperipherals.init;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import knightminer.knightperipherals.reference.ModIds;
-import knightminer.knightperipherals.reference.Reference;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -24,6 +22,7 @@ public class CreativeTab {
 		}
 
 		// add turtle upgrades to the creative tab
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		@Override
 		@SideOnly(Side.CLIENT)
 		public void displayAllReleventItems(List list)

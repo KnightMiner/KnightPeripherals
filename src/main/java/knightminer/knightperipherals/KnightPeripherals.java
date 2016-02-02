@@ -1,25 +1,17 @@
 package knightminer.knightperipherals;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.relauncher.Side;
-import dan200.computercraft.api.ComputerCraftAPI;
-import knightminer.knightperipherals.init.CreativeTab;
 import knightminer.knightperipherals.init.ModIcons;
 import knightminer.knightperipherals.init.ModItems;
 import knightminer.knightperipherals.init.Turtles;
 import knightminer.knightperipherals.reference.Config;
-import knightminer.knightperipherals.reference.ModIds;
 import knightminer.knightperipherals.reference.Reference;
-import knightminer.knightperipherals.turtles.TurtleClaw;
 import knightminer.knightperipherals.turtles.TurtleExNihiloHammer;
 import net.minecraftforge.common.MinecraftForge;
 

@@ -5,7 +5,6 @@ import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.turtle.ITurtleAccess;
-import dan200.computercraft.api.turtle.TurtleSide;
 import knightminer.knightperipherals.reference.Config;
 import knightminer.knightperipherals.turtles.peripherals.tasks.TaskClawClick;
 import net.minecraft.util.Facing;
@@ -14,11 +13,9 @@ import net.minecraft.world.World;
 public class PeripheralClaw implements IPeripheral {
 	
 	private ITurtleAccess turtle;
-	private TurtleSide side;
 
-	public PeripheralClaw(ITurtleAccess turtle, TurtleSide side) {
+	public PeripheralClaw(ITurtleAccess turtle) {
 		this.turtle = turtle;
-		this.side = side;
 	}
 
 	@Override

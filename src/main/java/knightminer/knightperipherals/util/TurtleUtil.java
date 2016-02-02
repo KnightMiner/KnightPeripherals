@@ -86,6 +86,7 @@ public class TurtleUtil {
 	 * @param dir Direction the turtle is facing
 	 * @return Nearest entity to the turtle
 	 */
+	@SuppressWarnings("unchecked")
 	public static Entity getClosestEntity(ITurtleAccess turtle, FakePlayer player, int dir) {
 		int x = turtle.getPosition().posX+Facing.offsetsXForSide[dir];
 		int y = turtle.getPosition().posY+Facing.offsetsYForSide[dir];

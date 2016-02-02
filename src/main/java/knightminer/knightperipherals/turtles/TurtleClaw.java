@@ -57,7 +57,7 @@ public class TurtleClaw implements ITurtleUpgrade
 	@Override
 	public IPeripheral createPeripheral(ITurtleAccess turtle, TurtleSide side)
 	{
-		return new PeripheralClaw(turtle, side);
+		return new PeripheralClaw(turtle);
 	}
 
 	@Override

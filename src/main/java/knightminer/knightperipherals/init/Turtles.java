@@ -1,12 +1,9 @@
 package knightminer.knightperipherals.init;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import cpw.mods.fml.common.Loader;
 import dan200.computercraft.api.ComputerCraftAPI;
-import exnihilo.registries.helpers.Smashable;
-import knightminer.knightperipherals.KnightPeripherals;
 import knightminer.knightperipherals.reference.Config;
 import knightminer.knightperipherals.reference.ModIds;
 import knightminer.knightperipherals.reference.Reference;
