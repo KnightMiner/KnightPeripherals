@@ -1,0 +1,6 @@
+item.turtleClaw.name=Turtle Claw
+
+turtleUpgrade.claw=Clicking
+turtleUpgrade.hammer=Smashing
+
+itemGroup.tabKnightPeripherals=KnightPeripherals
