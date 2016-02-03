@@ -2,7 +2,7 @@ package knightminer.knightperipherals.init;
 
 import java.util.ArrayList;
 
-import cpw.mods.fml.common.Loader;
+import net.minecraftforge.fml.common.Loader;
 import dan200.computercraft.api.ComputerCraftAPI;
 import knightminer.knightperipherals.reference.Config;
 import knightminer.knightperipherals.reference.ModIds;
@@ -12,7 +12,7 @@ import knightminer.knightperipherals.turtles.TurtleExNihiloHammer;
 import knightminer.knightperipherals.util.ModLogger;
 
 public class Turtles {
-	public static ArrayList<Integer> list = new ArrayList<Integer>();
+	public static ArrayList<String> list = new ArrayList<String>();
 	
 	public static void register()
 	{

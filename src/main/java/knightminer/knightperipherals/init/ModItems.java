@@ -1,8 +1,11 @@
 package knightminer.knightperipherals.init;
 
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import knightminer.knightperipherals.items.ItemBase;
 import knightminer.knightperipherals.reference.Config;
+import knightminer.knightperipherals.reference.Reference;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -14,9 +17,22 @@ public class ModItems {
 	{
 		if (Config.enableTurtleClaw)
 		{
-			turtleClaw = new ItemBase().setUnlocalizedName("turtleClaw").setTextureName("turtle_claw");
+			turtleClaw = new ItemBase().setUnlocalizedName("turtleClaw");
 			GameRegistry.registerItem(turtleClaw, "turtle_claw");
 		}
+	}
+	
+	public static void registerRenders()
+	{
+		if (Config.enableTurtleClaw)
+		{
+			registerRender(turtleClaw, "turtle_claw");
+		}
+	}
+	
+	private static void registerRender(Item item, String name)
+	{
+		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation(Reference.MOD_ID + ":" + name, "inventory"));
 	}
 	
 	public static void addRecipes()

@@ -3,19 +3,25 @@ package knightminer.knightperipherals.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.vecmath.Matrix4f;
+
 import org.lwjgl.util.vector.Vector3f;
 
 import dan200.computercraft.api.turtle.ITurtleAccess;
+import dan200.computercraft.api.turtle.TurtleSide;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.util.Facing;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TurtleUtil {
 	
@@ -26,19 +32,19 @@ public class TurtleUtil {
 	 */
 	public static void setPlayerPosition( FakePlayer player, ITurtleAccess turtle )
 	{
-		player.setPosition(turtle.getPosition().posX, turtle.getPosition().posY, turtle.getPosition().posZ);
+		player.setPosition(turtle.getPosition().getX(), turtle.getPosition().getY(), turtle.getPosition().getZ());
 	}
 	
 	/**
 	 * Adds an item to a turtle's inventory by finding the first available slot
 	 * Credit: austinv11
+	 * Updated to 1.8 on 2/2/2016
 	 * @param turtle The turtle to add items to
 	 * @param stack ItemStack to add to the inventory
 	 */
 	public static void addToInv(ITurtleAccess turtle, ItemStack stack) {
 		boolean drop = true;
 		IInventory inv = turtle.getInventory();
-		ChunkCoordinates coords = turtle.getPosition();
 		for (int i = 0; i < inv.getSizeInventory(); i++) {
 			ItemStack currentStack = inv.getStackInSlot(i);
 			if (currentStack == null) {
@@ -61,45 +67,47 @@ public class TurtleUtil {
 			}
 		}
 		if (drop) {
-			int dir = turtle.getDirection();
-			turtle.getWorld().spawnEntityInWorld(new EntityItem(turtle.getWorld(), coords.posX+Facing.offsetsXForSide[dir], coords.posY+Facing.offsetsYForSide[dir]+1, coords.posZ+Facing.offsetsZForSide[dir], stack.copy()));
+			EnumFacing dir = turtle.getDirection();
+			BlockPos pos = turtle.getPosition().offset(dir);
+			turtle.getWorld().spawnEntityInWorld(new EntityItem(turtle.getWorld(), pos.getX(), pos.getY(), pos.getZ(), stack.copy()));
 		}
 	}
 	
 	/**
 	 * Adds a list of items to the turtle's inventory
 	 * Credit: austinv11
-	 * @param items
+	 * @param list
 	 * @param turtle
 	 */
-	public static void addItemListToInv(List<ItemStack> items, ITurtleAccess turtle) {
-		for (ItemStack item : items) {
+	public static void addItemListToInv(List<ItemStack> list, ITurtleAccess turtle) {
+		for (ItemStack item : list) {
 			addToInv(turtle, item);
 		}
 	}
 	
 	/**
 	 * Gets the closest entity to a turtle
-	 * Modified from functions by austinv11 on 1/28/2016
+	 * Modified from functions by austinv11 on 2/2/2016
 	 * @param turtle Turtle calling the command
 	 * @param player Fake player
-	 * @param dir Direction the turtle is facing
+	 * @param dir EnumFacing of the turtle
 	 * @return Nearest entity to the turtle
 	 */
 	@SuppressWarnings("unchecked")
-	public static Entity getClosestEntity(ITurtleAccess turtle, FakePlayer player, int dir) {
-		int x = turtle.getPosition().posX+Facing.offsetsXForSide[dir];
-		int y = turtle.getPosition().posY+Facing.offsetsYForSide[dir];
-		int z = turtle.getPosition().posZ+Facing.offsetsZForSide[dir];
+	public static Entity getClosestEntity(ITurtleAccess turtle, FakePlayer player, EnumFacing dir) {
+		BlockPos pos = turtle.getPosition().offset(dir);
+		int x = pos.getX();
+		int y = pos.getY();
+		int z = pos.getZ();
 		
-		AxisAlignedBB box = AxisAlignedBB.getBoundingBox(x, y, z, x+1.0D, y+1.0D, z+1.0D);
+		AxisAlignedBB box = new AxisAlignedBB(x, y, z, x+1.0D, y+1.0D, z+1.0D);
 		List<Entity> entities = turtle.getWorld().getEntitiesWithinAABBExcludingEntity(player, box);
 		
-		Vec3 from = Vec3.createVectorHelper(player.posX, player.posY, player.posZ);
+		Vec3 from = new Vec3(player.posX, player.posY, player.posZ);
 		Entity returnVal = null;
 		double lastDistance = Double.MAX_VALUE;
 		for (Entity entity : entities) {
-			Vec3 to = Vec3.createVectorHelper(entity.posX, entity.posY, entity.posZ);
+			Vec3 to = new Vec3(entity.posX, entity.posY, entity.posZ);
 			if (to.distanceTo(from) < lastDistance)
 				returnVal = entity;
 		}
@@ -107,14 +115,14 @@ public class TurtleUtil {
 	}
 	
 	/**
-	 * Turns an entities drops into TtemStacks
+	 * Turns an entities drops into ItemStacks
 	 * Credit: austinv11
-	 * @param entities Items that dropped from the entity
+	 * @param drops Items that dropped from the entity
 	 * @return Entity drops as ItemStacks
 	 */
-	public static ArrayList<ItemStack> entityItemsToItemStack(ArrayList<EntityItem> entities) {
+	public static List<ItemStack> entityItemsToItemStack(List<EntityItem> drops) {
 		ArrayList<ItemStack> stacks = new ArrayList<ItemStack>();
-		for (EntityItem e : entities) {
+		for (EntityItem e : drops) {
 			stacks.add(e.getEntityItem());
 		}
 		return stacks;
@@ -123,10 +131,10 @@ public class TurtleUtil {
 	/**
 	 * Finds the center to use for clicking a block
 	 * Credit: Cypher121
-	 * @param dir ForgeDirection which is being clicked from
+	 * @param dir EnumFacing which is being clicked from
 	 * @return a Vector3f of the location
 	 */
-	public static Vector3f getCenterOfSide(ForgeDirection dir) {
+	public static Vector3f getCenterOfSide(EnumFacing dir) {
 		switch (dir) {
 			case UP:
   			  return new Vector3f(0.5f, 1f, 0.5f);
@@ -145,14 +153,29 @@ public class TurtleUtil {
 		}
 	}
 
+	@SideOnly(Side.CLIENT)
+	private static ItemModelMesher mesher;
 	/**
-	 * Finds the center to use for clicking a block
-	 * Credit: Cypher121
-	 * @param side integer representing the side which is being clicked from
-	 * @return a Vector3f of the location
+	 * Gets the item model mesher
+	 * Credit: SquidDev
+	 * @return
 	 */
-	public static Vector3f getCenterOfSide(int side) {
-		return getCenterOfSide(ForgeDirection.getOrientation(side));
+	@SideOnly(Side.CLIENT)
+	public static ItemModelMesher getMesher() {
+		ItemModelMesher instance = mesher;
+		if (instance == null) instance = mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
+		return instance;
 	}
 	
+	/**
+	 * Get item transforms data
+	 * Credit: SquidDev
+	 * @param side TurtleSide containing the tool or model
+	 * @return
+	 */
+	public static Matrix4f getTransforms(TurtleSide side)
+	{
+		float xOffset = side == TurtleSide.Left ? -0.40625F : 0.40625F;
+		return new Matrix4f(0.0F, 0.0F, -1.0F, 1.0F + xOffset, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, -1.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 1.0F);
+	}
 }

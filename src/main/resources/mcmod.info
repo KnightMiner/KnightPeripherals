@@ -8,7 +8,7 @@
   "url": "http://minecraft.curseforge.com/projects/knightperipherals",
   "updateUrl": "",
   "authorList": ["KnightMiner"],
-  "credits": "Special thanks to MrCrayfish, austinv11, and Cypher121 for reference for structure and some code.",
+  "credits": "Special thanks to MrCrayfish, austinv11, Cypher121, and SquidDev for code structure reference and some code functions.",
   "logoFile": "",
   "screenshots": [],
   "dependencies": ["ComputerCraft"]

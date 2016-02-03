@@ -4,7 +4,7 @@ import java.util.List;
 
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import knightminer.knightperipherals.init.Turtles;
 import knightminer.knightperipherals.reference.ModIds;
 import knightminer.knightperipherals.reference.Reference;
@@ -17,28 +17,30 @@ public class NEIKnightPeripheralsConfig implements IConfigureNEI  {
 	@Override
 	public void loadConfig() {
 		ModLogger.logger.info("Loading NEI pluggin");
-		List<Integer> upgrades = Turtles.list;
+		List<String> upgrades = Turtles.list;
 		
 		if (!upgrades.isEmpty())
 		{
-			ItemStack turtle = GameRegistry.findItemStack(ModIds.COMPUTERCRAFT, ModIds.COMPUTERCRAFT_TURTLE, 1);
-			ItemStack turtleAdv = GameRegistry.findItemStack(ModIds.COMPUTERCRAFT, ModIds.COMPUTERCRAFT_TURTLEADV, 1);
+			ItemStack turtle = GameRegistry.makeItemStack(ModIds.COMPUTERCRAFT_TURTLE, 0, 1, null);
+			ItemStack turtleAdv = GameRegistry.makeItemStack(ModIds.COMPUTERCRAFT_TURTLEADV, 0, 1, null);
 
 			// add normal turtles
-			for (int i: upgrades)
+			for (String s: upgrades)
 			{
 				ItemStack upgrade = turtle.copy();
-				upgrade.stackTagCompound = new NBTTagCompound();
-				upgrade.stackTagCompound.setShort("leftUpgrade", (short) i);
+				NBTTagCompound tag = new NBTTagCompound();
+				tag.setString("leftUpgrade", s);
+				upgrade.setTagCompound(tag);
 				API.addItemListEntry(upgrade);
 			}
 			
 			// add advance turtles
-			for (int i: upgrades)
+			for (String s: upgrades)
 			{
 				ItemStack upgrade = turtleAdv.copy();
-				upgrade.stackTagCompound = new NBTTagCompound();
-				upgrade.stackTagCompound.setShort("leftUpgrade", (short) i);
+				NBTTagCompound tag = new NBTTagCompound();
+				tag.setString("leftUpgrade", s);
+				upgrade.setTagCompound(tag);
 				API.addItemListEntry(upgrade);
 			}
 		}

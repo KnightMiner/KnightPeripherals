@@ -5,13 +5,17 @@ import org.lwjgl.util.vector.Vector3f;
 import dan200.computercraft.api.lua.ILuaTask;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.turtle.ITurtleAccess;
+import dan200.computercraft.api.turtle.TurtleAnimation;
+import dan200.computercraft.api.turtle.TurtleSide;
 import knightminer.knightperipherals.util.FakePlayerProvider;
 import knightminer.knightperipherals.util.TurtleUtil;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Facing;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.ForgeEventFactory;
@@ -21,18 +25,20 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 public class TaskClawClick implements ILuaTask {
 	
 	// data to inherit from PeripheralClaw
-	ITurtleAccess turtle;
-	World world;
-	int direction, x, y, z, fuelCost;
-	Boolean sneaking;
+	private ITurtleAccess turtle;
+	private TurtleSide side;
+	private World world;
+	private EnumFacing direction;
+	private BlockPos pos;
+	private int fuelCost;
+	private Boolean sneaking;
 	
-	public TaskClawClick(ITurtleAccess turtle, World world, int direction, int x, int y, int z, Boolean sneaking, int fuelCost) {
+	public TaskClawClick(ITurtleAccess turtle, TurtleSide side, World world, EnumFacing direction, BlockPos pos, Boolean sneaking, int fuelCost) {
 		this.turtle = turtle;
+		this.side = side;
 		this.world = world;
 		this.direction = direction;
-		this.x = x;
-		this.y = y;
-		this.z = z;
+		this.pos = pos;
 		this.sneaking = sneaking;
 		this.fuelCost = fuelCost;
 	}
@@ -42,26 +48,27 @@ public class TaskClawClick implements ILuaTask {
 	throws LuaException {
 		
 		// grab some additional data before we get started
-		Block block = world.getBlock(x, y, z);
-		int side = Facing.oppositeSide[direction];
-		Vector3f clickPoint = TurtleUtil.getCenterOfSide( side );
+		IBlockState state = world.getBlockState(pos);
+		Block block = state.getBlock();
+		EnumFacing face = direction.getOpposite();
+		Vector3f clickPoint = TurtleUtil.getCenterOfSide(face);
 		
 		// find the currently selected item/stack
 		IInventory inv = turtle.getInventory();
 		int slot = turtle.getSelectedSlot();
-		ItemStack stack = inv.getStackInSlot( slot );
+		ItemStack stack = inv.getStackInSlot(slot);
 		
-		// if we have an itemstack, get the item from that. We don't want a null pointer error
+		// if we have an ItemStack, get the item from that. We don't want a null pointer error
 		Item item = stack == null ? null : stack.getItem();
 		
-		// set up data for the fake player: itemstack and position
+		// set up data for the fake player: ItemStack and position
 		FakePlayer fakePlayer = FakePlayerProvider.get( turtle );
 		fakePlayer.setCurrentItemOrArmor(0, stack);
 		fakePlayer.setSneaking(sneaking);
 		TurtleUtil.setPlayerPosition(fakePlayer, turtle);
 		
 		// queue event, and cancel if the event is canceled
-		PlayerInteractEvent event = ForgeEventFactory.onPlayerInteract(fakePlayer, Action.RIGHT_CLICK_BLOCK, x, y, z, side, turtle.getWorld());
+		PlayerInteractEvent event = ForgeEventFactory.onPlayerInteract(fakePlayer, Action.RIGHT_CLICK_BLOCK, turtle.getWorld(), pos, face);
 		if (event.isCanceled()) {
 			return new Object[]{ false, "Click event canceled" };
 		}
@@ -69,23 +76,30 @@ public class TaskClawClick implements ILuaTask {
 		// first try an item which is used before a block is activated
 		Boolean clicked = false;
 		if (item != null) {
-			clicked = item.onItemUseFirst(stack, fakePlayer, world, x, y, z, side, clickPoint.getX(), clickPoint.getY(), clickPoint.getZ());
+			clicked = item.onItemUseFirst(stack, fakePlayer, world, pos, face, clickPoint.getX(), clickPoint.getY(), clickPoint.getZ());
 		}
 		
 		// next, try the block directly
 		if (!clicked)
 		{
-			clicked = block != null && block.onBlockActivated(world, x, y, z, fakePlayer, side, clickPoint.getX(), clickPoint.getY(), clickPoint.getZ());
+			clicked = block != null && block.onBlockActivated(world, pos, state, fakePlayer, face, clickPoint.getX(), clickPoint.getY(), clickPoint.getZ());
 		}
 		// if that did not work, try the item's main action
 		if (!clicked && (item != null)) {
-			clicked = item.onItemUse(stack, fakePlayer, world, x, y, z, side, clickPoint.getX(), clickPoint.getY(), clickPoint.getZ());
+			clicked = item.onItemUse(stack, fakePlayer, world, pos, face, clickPoint.getX(), clickPoint.getY(), clickPoint.getZ());
 		}
 		
-		// we don't want ghost stacks
-		if ( stack != null && stack.stackSize == 0 )
+		TurtleAnimation animation = side == TurtleSide.Left ? TurtleAnimation.SwingLeftTool : TurtleAnimation.SwingRightTool;
+		turtle.playAnimation(animation);
+		
+		// if the ItemStack changed, replace it with the new version
+		ItemStack newStack = fakePlayer.getCurrentEquippedItem();
+		if (newStack == null || newStack.stackSize == 0)
 		{
 			inv.setInventorySlotContents(slot, null);
+		} else if (newStack != stack)
+		{
+			inv.setInventorySlotContents(slot, newStack);
 		}
 		
 		// If enabled, remove some fuel
