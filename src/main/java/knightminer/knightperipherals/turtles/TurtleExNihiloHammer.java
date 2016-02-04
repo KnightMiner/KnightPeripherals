@@ -41,7 +41,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SuppressWarnings("deprecation")
 public class TurtleExNihiloHammer implements ITurtleUpgrade {
 	
 	private static ItemStack stack = GameRegistry.makeItemStack(ModIds.EXNIHILO_HAMMER, 0, 1, null);

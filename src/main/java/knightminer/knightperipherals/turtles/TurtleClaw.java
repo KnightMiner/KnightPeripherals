@@ -24,7 +24,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SuppressWarnings("deprecation")
 public class TurtleClaw implements ITurtleUpgrade
 {
 	private static ItemStack stack = new ItemStack(ModItems.turtleClaw, 1);

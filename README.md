@@ -2,7 +2,7 @@
 
 KnightPeripherals is a mod by KnightMiner. It is an addon to the popular [Minecraft](//minecraft.net) mod [ComputerCraft](//www.computercraft.info/) to adds various peripherals to ComputerCraft, including a clicking turtle upgrade and an [Ex Nihilo](//www.minecraftforum.net/forums/topic/1291850) hammer upgrade.
 
-This branch contains the code for the 1.8 version of KnightPeripherals.
+This branch contains the code for the 1.8.9 version of KnightPeripherals.
 
 ## More information
 

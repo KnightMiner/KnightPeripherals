@@ -93,7 +93,6 @@ public class TurtleUtil {
 	 * @param dir EnumFacing of the turtle
 	 * @return Nearest entity to the turtle
 	 */
-	@SuppressWarnings("unchecked")
 	public static Entity getClosestEntity(ITurtleAccess turtle, FakePlayer player, EnumFacing dir) {
 		BlockPos pos = turtle.getPosition().offset(dir);
 		int x = pos.getX();

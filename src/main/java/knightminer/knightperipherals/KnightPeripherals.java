@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 @Mod( modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION,
-	dependencies = "required-after:ComputerCraft;after:exnihilo;after:NotEnoughItems;" )
+	dependencies = "required-after:ComputerCraft;after:exnihilo;" )
 public class KnightPeripherals {
 	
 	@SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.SERVER_PROXY_CLASS)
