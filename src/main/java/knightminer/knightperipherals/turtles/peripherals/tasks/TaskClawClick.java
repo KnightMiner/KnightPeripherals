@@ -1,7 +1,5 @@
 package knightminer.knightperipherals.turtles.peripherals.tasks;
 
-import org.lwjgl.util.vector.Vector3f;
-
 import dan200.computercraft.api.lua.ILuaTask;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.turtle.ITurtleAccess;
@@ -44,7 +42,7 @@ public class TaskClawClick implements ILuaTask {
 		// grab some additional data before we get started
 		Block block = world.getBlock(x, y, z);
 		int side = Facing.oppositeSide[direction];
-		Vector3f clickPoint = TurtleUtil.getCenterOfSide( side );
+		float[] clickPoint = TurtleUtil.getCenterOfSide(side);
 		
 		// find the currently selected item/stack
 		IInventory inv = turtle.getInventory();
@@ -55,7 +53,7 @@ public class TaskClawClick implements ILuaTask {
 		Item item = stack == null ? null : stack.getItem();
 		
 		// set up data for the fake player: itemstack and position
-		FakePlayer fakePlayer = FakePlayerProvider.get( turtle );
+		FakePlayer fakePlayer = FakePlayerProvider.get(turtle);
 		fakePlayer.setCurrentItemOrArmor(0, stack);
 		fakePlayer.setSneaking(sneaking);
 		TurtleUtil.setPlayerPosition(fakePlayer, turtle);
@@ -69,17 +67,17 @@ public class TaskClawClick implements ILuaTask {
 		// first try an item which is used before a block is activated
 		Boolean clicked = false;
 		if (item != null) {
-			clicked = item.onItemUseFirst(stack, fakePlayer, world, x, y, z, side, clickPoint.getX(), clickPoint.getY(), clickPoint.getZ());
+			clicked = item.onItemUseFirst(stack, fakePlayer, world, x, y, z, side, clickPoint[0], clickPoint[1], clickPoint[2]);
 		}
 		
 		// next, try the block directly
 		if (!clicked)
 		{
-			clicked = block != null && block.onBlockActivated(world, x, y, z, fakePlayer, side, clickPoint.getX(), clickPoint.getY(), clickPoint.getZ());
+			clicked = block != null && block.onBlockActivated(world, x, y, z, fakePlayer, side, clickPoint[0], clickPoint[1], clickPoint[2]);
 		}
 		// if that did not work, try the item's main action
 		if (!clicked && (item != null)) {
-			clicked = item.onItemUse(stack, fakePlayer, world, x, y, z, side, clickPoint.getX(), clickPoint.getY(), clickPoint.getZ());
+			clicked = item.onItemUse(stack, fakePlayer, world, x, y, z, side, clickPoint[0], clickPoint[1], clickPoint[2]);
 		}
 		
 		// we don't want ghost stacks
