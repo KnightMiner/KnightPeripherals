@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.vecmath.Matrix4f;
 
-import org.lwjgl.util.vector.Vector3f;
-
 import dan200.computercraft.api.turtle.ITurtleAccess;
 import dan200.computercraft.api.turtle.TurtleSide;
 import net.minecraft.client.Minecraft;
@@ -129,24 +127,24 @@ public class TurtleUtil {
 	
 	/**
 	 * Finds the center to use for clicking a block
-	 * Credit: Cypher121
+	 * Credit: Cypher121, modified on 2/5/2016
 	 * @param dir EnumFacing which is being clicked from
 	 * @return a Vector3f of the location
 	 */
-	public static Vector3f getCenterOfSide(EnumFacing dir) {
+	public static float[] getCenterOfSide(EnumFacing dir) {
 		switch (dir) {
 			case UP:
-  			  return new Vector3f(0.5f, 1f, 0.5f);
+			  return new float[]{ 0.5f, 1f, 0.5f };
 			case DOWN:
-				return new Vector3f(0.5f, 0f, 0.5f);
+				return new float[]{ 0.5f, 0f, 0.5f};
 			case NORTH:
-				return new Vector3f(0.5f, 0.5f, 0f);
+				return new float[]{ 0.5f, 0.5f, 0f};
 			case SOUTH:
-				return new Vector3f(0.5f, 0.5f, 1f);
+				return new float[]{ 0.5f, 0.5f, 1f};
 			case WEST:
-				return new Vector3f(0f, 0.5f, 0.5f);
+				return new float[]{ 0f, 0.5f, 0.5f};
 			case EAST:
-				return new Vector3f(1f, 0.5f, 0.5f);
+				return new float[]{ 1f, 0.5f, 0.5f};
 		default:
 			return null;
 		}

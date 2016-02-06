@@ -1,7 +1,5 @@
 package knightminer.knightperipherals.turtles.peripherals.tasks;
 
-import org.lwjgl.util.vector.Vector3f;
-
 import dan200.computercraft.api.lua.ILuaTask;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.turtle.ITurtleAccess;
@@ -51,7 +49,7 @@ public class TaskClawClick implements ILuaTask {
 		IBlockState state = world.getBlockState(pos);
 		Block block = state.getBlock();
 		EnumFacing face = direction.getOpposite();
-		Vector3f clickPoint = TurtleUtil.getCenterOfSide(face);
+		float[] clickPoint = TurtleUtil.getCenterOfSide(face);
 		
 		// find the currently selected item/stack
 		IInventory inv = turtle.getInventory();
@@ -76,17 +74,17 @@ public class TaskClawClick implements ILuaTask {
 		// first try an item which is used before a block is activated
 		Boolean clicked = false;
 		if (item != null) {
-			clicked = item.onItemUseFirst(stack, fakePlayer, world, pos, face, clickPoint.getX(), clickPoint.getY(), clickPoint.getZ());
+			clicked = item.onItemUseFirst(stack, fakePlayer, world, pos, face, clickPoint[0], clickPoint[1], clickPoint[2]);
 		}
 		
 		// next, try the block directly
 		if (!clicked)
 		{
-			clicked = block != null && block.onBlockActivated(world, pos, state, fakePlayer, face, clickPoint.getX(), clickPoint.getY(), clickPoint.getZ());
+			clicked = block != null && block.onBlockActivated(world, pos, state, fakePlayer, face, clickPoint[0], clickPoint[1], clickPoint[2]);
 		}
 		// if that did not work, try the item's main action
 		if (!clicked && (item != null)) {
-			clicked = item.onItemUse(stack, fakePlayer, world, pos, face, clickPoint.getX(), clickPoint.getY(), clickPoint.getZ());
+			clicked = item.onItemUse(stack, fakePlayer, world, pos, face, clickPoint[0], clickPoint[1], clickPoint[2]);
 		}
 		
 		TurtleAnimation animation = side == TurtleSide.Left ? TurtleAnimation.SwingLeftTool : TurtleAnimation.SwingRightTool;
