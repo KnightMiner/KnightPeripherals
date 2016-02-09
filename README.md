@@ -6,7 +6,7 @@ This branch contains the code for the 1.8.9 version of KnightPeripherals.
 
 ## More information
 
-For more information, see this mods [ComputerCraft forum thread](http://www.computercraft.info/forums2/index.php?/topic/25803-).
+For more information, see this mods [ComputerCraft forum thread](http://www.computercraft.info/forums2/index.php?/topic/25803-) and the [wiki](https://github.com/KnightMiner/KnightPeripherals/wiki).
 
 ## Download
 

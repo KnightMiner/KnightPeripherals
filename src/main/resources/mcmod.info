@@ -4,7 +4,7 @@
   "name": "KnightPeripherals",
   "description": "Adds additional turtle peripherals to ComputerCraft",
   "version": "${version}",
-  "mcversion": "1.7.10",
+  "mcversion": "1.8.9",
   "url": "http://minecraft.curseforge.com/projects/knightperipherals",
   "updateUrl": "",
   "authorList": ["KnightMiner"],
