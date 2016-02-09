@@ -35,6 +35,8 @@ public class Turtles {
 			{
 				ModLogger.logger.info("Skipping registering smashing turtle, upgrade disabled");
 			}
+		} else {
+			ModLogger.logger.info( "Cannot find Ex Nihilo, skipping smashing turtle" );
 		}
 	}
 }

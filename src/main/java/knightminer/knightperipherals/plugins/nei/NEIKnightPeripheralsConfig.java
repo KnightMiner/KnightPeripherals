@@ -16,7 +16,7 @@ public class NEIKnightPeripheralsConfig implements IConfigureNEI  {
 
 	@Override
 	public void loadConfig() {
-		ModLogger.logger.info("Loading NEI pluggin");
+		ModLogger.logger.info("Loading NEI plugin");
 		List<Integer> upgrades = Turtles.list;
 		
 		if (!upgrades.isEmpty())
