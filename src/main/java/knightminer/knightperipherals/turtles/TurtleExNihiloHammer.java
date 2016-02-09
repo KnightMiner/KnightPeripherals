@@ -105,6 +105,7 @@ public class TurtleExNihiloHammer implements ITurtleUpgrade {
 			case Attack:
 				// grab a fake player to use for basic checks
 				FakePlayer fakePlayer = FakePlayerProvider.get(turtle);
+				TurtleUtil.setPlayerPosition(fakePlayer, turtle);
 				
 				// find the closest entity
 				Entity entity = TurtleUtil.getClosestEntity(turtle, fakePlayer, direction);
@@ -174,6 +175,10 @@ public class TurtleExNihiloHammer implements ITurtleUpgrade {
 					}
 					// all cases leading here mean we dug the block, so remove the block and return true
 					world.setBlockToAir(pos);
+
+					if (!world.isRemote )
+						world.playSoundEffect(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, block.stepSound.getBreakSound(), 1.0F, 0.8F);
+					
 					return TurtleCommandResult.success();
 				}
 				// block is air
