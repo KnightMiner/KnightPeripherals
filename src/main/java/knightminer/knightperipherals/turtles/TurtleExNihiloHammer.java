@@ -81,8 +81,9 @@ public class TurtleExNihiloHammer implements ITurtleUpgrade {
 		switch (verb)
 		{
 			case Attack:
-				// grab a fake player to use for basic checks
+				// grab a fake player to use for basic checks, along with as a target for when mobs get mad
 				FakePlayer fakePlayer = FakePlayerProvider.get(turtle);
+				TurtleUtil.setPlayerPosition(fakePlayer, turtle);
 				
 				// find the closest entity
 				Entity entity = TurtleUtil.getClosestEntity(turtle, fakePlayer, direction);
@@ -149,8 +150,12 @@ public class TurtleExNihiloHammer implements ITurtleUpgrade {
 							return TurtleCommandResult.failure("Block is unbreakable");
 						}
 					}
-					// all cases leading here mean we dug the block, so remove the block and return true
+					// all cases leading here mean we dug the block, so remove the block, play a sound, and return true
 					world.setBlockToAir(x, y, z);
+					
+					if (!world.isRemote )
+						world.playSoundEffect(x + 0.5D, y + 0.5D, z + 0.5D, block.stepSound.getBreakSound(), 1.0F, 0.8F);
+					
 					return TurtleCommandResult.success();
 				}
 				// block is air
