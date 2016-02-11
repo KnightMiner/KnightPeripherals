@@ -26,6 +26,7 @@ import knightminer.knightperipherals.util.ModLogger;
 import knightminer.knightperipherals.util.TurtleUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Facing;
@@ -61,7 +62,6 @@ public class TurtleExNihiloHammer implements ITurtleUpgrade {
 	{
 		if (Config.craftTurtleHammer)
 		{
-			return GameRegistry.findItemStack( ModIds.EXNIHILO, ModIds.EXNIHILO_HAMMER, 0 );
 		} else
 		{
 			ModLogger.logger.info("Recipe for smashing turtle disabled");
@@ -171,13 +171,11 @@ public class TurtleExNihiloHammer implements ITurtleUpgrade {
 	@Override
 	public IIcon getIcon(ITurtleAccess turtle, TurtleSide side)
 	{
-		return GameRegistry.findItem(ModIds.EXNIHILO, ModIds.EXNIHILO_HAMMER).getIconFromDamage(0);
+		return item.getIconFromDamage(0);
 	}
 
 	@Override
-	public void update(ITurtleAccess turtle, TurtleSide side)
-	{
-	}
+	public void update(ITurtleAccess turtle, TurtleSide side){}
 	
 	// keep track of entity drops to pull into the turtle's inventory
 	// Credit: austinv11
