@@ -20,6 +20,8 @@ public class FakePlayerProvider {
 		{
 			player = FakePlayerFactory.get( (WorldServer)turtle.getWorld(), profile);
 		}
+		player.setPosition(turtle.getPosition().posX, turtle.getPosition().posY, turtle.getPosition().posZ);
+		
 		return player;
 	}
 

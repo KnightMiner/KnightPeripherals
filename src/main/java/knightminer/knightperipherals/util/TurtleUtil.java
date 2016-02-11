@@ -18,16 +18,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TurtleUtil {
 	
 	/**
-	 * Sets the position of the fake player to that of a turtle
-	 * @param player the player whose position will change
-	 * @param turtle the turtle for the new coordinates
-	 */
-	public static void setPlayerPosition( FakePlayer player, ITurtleAccess turtle )
-	{
-		player.setPosition(turtle.getPosition().posX, turtle.getPosition().posY, turtle.getPosition().posZ);
-	}
-	
-	/**
 	 * Adds an item to a turtle's inventory by finding the first available slot
 	 * Credit: austinv11
 	 * @param turtle The turtle to add items to
@@ -37,6 +27,7 @@ public class TurtleUtil {
 		boolean drop = true;
 		IInventory inv = turtle.getInventory();
 		ChunkCoordinates coords = turtle.getPosition();
+		
 		for (int i = 0; i < inv.getSizeInventory(); i++) {
 			ItemStack currentStack = inv.getStackInSlot(i);
 			if (currentStack == null) {

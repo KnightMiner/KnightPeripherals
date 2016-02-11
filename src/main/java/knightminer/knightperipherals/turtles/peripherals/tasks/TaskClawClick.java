@@ -19,10 +19,10 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 public class TaskClawClick implements ILuaTask {
 	
 	// data to inherit from PeripheralClaw
-	ITurtleAccess turtle;
-	World world;
-	int direction, x, y, z, fuelCost;
-	Boolean sneaking;
+	private ITurtleAccess turtle;
+	private World world;
+	private int direction, x, y, z, fuelCost;
+	private Boolean sneaking;
 	
 	public TaskClawClick(ITurtleAccess turtle, World world, int direction, int x, int y, int z, Boolean sneaking, int fuelCost) {
 		this.turtle = turtle;
@@ -56,7 +56,6 @@ public class TaskClawClick implements ILuaTask {
 		FakePlayer fakePlayer = FakePlayerProvider.get(turtle);
 		fakePlayer.setCurrentItemOrArmor(0, stack);
 		fakePlayer.setSneaking(sneaking);
-		TurtleUtil.setPlayerPosition(fakePlayer, turtle);
 		
 		// queue event, and cancel if the event is canceled
 		PlayerInteractEvent event = ForgeEventFactory.onPlayerInteract(fakePlayer, Action.RIGHT_CLICK_BLOCK, x, y, z, side, turtle.getWorld());
