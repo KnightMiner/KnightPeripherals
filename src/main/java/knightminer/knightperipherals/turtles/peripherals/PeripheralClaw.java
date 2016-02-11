@@ -26,11 +26,11 @@ public class PeripheralClaw implements IPeripheral {
 	@Override
 	public String[] getMethodNames() {
 		return new String[]
-			{
-				"click",
-				"clickUp",
-				"clickDown"
-			};
+		{
+			"click",
+			"clickUp",
+			"clickDown"
+		};
 	}
 
 	@Override
@@ -82,13 +82,10 @@ public class PeripheralClaw implements IPeripheral {
 	}
 
 	@Override
-	public void attach(IComputerAccess computer) {
-	}
+	public void attach(IComputerAccess computer) {}
 
 	@Override
-	public void detach(IComputerAccess computer) {
-
-	}
+	public void detach(IComputerAccess computer) {}
 
 	@Override
 	public boolean equals(IPeripheral other) {

@@ -2,5 +2,7 @@ item.turtleClaw.name=Turtle Claw
 
 turtleUpgrade.claw=Clicking
 turtleUpgrade.hammer=Smashing
+turtleUpgrade.tnt=Explosive
+turtleUpgrade.bow=Ranged
 
 itemGroup.tabKnightPeripherals=KnightPeripherals

@@ -16,5 +16,7 @@ public class Reference {
 	//turtle IDs
 	public static final int UPGRADE_CLAW = 190;
 	public static final int UPGRADE_HAMMER = 191;
+	public static final int UPGRADE_BOW = 192;
+	public static final int UPGRADE_TNT = 193;
 
 }

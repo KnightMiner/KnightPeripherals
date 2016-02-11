@@ -9,28 +9,29 @@ import dan200.computercraft.api.turtle.TurtleCommandResult;
 import dan200.computercraft.api.turtle.TurtleSide;
 import dan200.computercraft.api.turtle.TurtleUpgradeType;
 import dan200.computercraft.api.turtle.TurtleVerb;
-import knightminer.knightperipherals.init.ModIcons;
-import knightminer.knightperipherals.init.ModItems;
 import knightminer.knightperipherals.reference.Config;
 import knightminer.knightperipherals.reference.Reference;
-import knightminer.knightperipherals.turtles.peripherals.PeripheralClaw;
+import knightminer.knightperipherals.turtles.peripherals.PeripheralTnt;
 import knightminer.knightperipherals.util.ModLogger;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
-public class TurtleClaw implements ITurtleUpgrade
+public class TurtleTnt implements ITurtleUpgrade
 {
-
+	private static final Block block = Blocks.tnt;
+	
 	@Override
 	public int getUpgradeID()
 	{
-		return Reference.UPGRADE_CLAW;
+		return Reference.UPGRADE_TNT;
 	}
 
 	@Override
 	public String getUnlocalisedAdjective()
 	{
-		return "turtleUpgrade.claw";
+		return "turtleUpgrade.tnt";
 	}
 
 	@Override
@@ -42,12 +43,12 @@ public class TurtleClaw implements ITurtleUpgrade
 	@Override
 	public ItemStack getCraftingItem()
 	{
-		if (Config.craftTurtleClaw)
+		if (Config.craftTurtleTnt)
 		{
-			return new ItemStack(ModItems.turtleClaw, 1);
+			return new ItemStack(block, 1);
 		} else
 		{
-			ModLogger.logger.info("Recipe for clicking turtle disabled");
+			ModLogger.logger.info("Recipe for self-destructing turtle disabled");
 			return null;
 		}
 	}
@@ -55,7 +56,7 @@ public class TurtleClaw implements ITurtleUpgrade
 	@Override
 	public IPeripheral createPeripheral(ITurtleAccess turtle, TurtleSide side)
 	{
-		return new PeripheralClaw(turtle);
+		return new PeripheralTnt(turtle);
 	}
 
 	@Override
@@ -68,13 +69,7 @@ public class TurtleClaw implements ITurtleUpgrade
 	@Override
 	public IIcon getIcon(ITurtleAccess turtle, TurtleSide side)
 	{
-		if ( side == TurtleSide.Left )
-		{
-			return ModIcons.turtleClawLeft;
-		} else
-		{
-			return ModIcons.turtleClawRight;
-		}
+		return block.getIcon(2, 0);
 	}
 
 	@Override
