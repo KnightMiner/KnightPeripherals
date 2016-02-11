@@ -4,6 +4,7 @@ import dan200.computercraft.api.lua.ILuaTask;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.turtle.ITurtleAccess;
 import knightminer.knightperipherals.reference.Config;
+import knightminer.knightperipherals.util.FakePlayerProvider;
 import net.minecraft.world.World;
 
 public class TaskTntExplode implements ILuaTask {
@@ -27,7 +28,7 @@ public class TaskTntExplode implements ILuaTask {
 		world.setBlockToAir(x, y, z);
 		
 		// trigger the actual explosion
-		world.createExplosion(null, x, y, z, Config.tntPower, true);
+		world.createExplosion(FakePlayerProvider.get(turtle), x, y, z, Config.tntPower, true);
 
 		// return success, even though we really won't reach here
 		return new Object[]{ true };
