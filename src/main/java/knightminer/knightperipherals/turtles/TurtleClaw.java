@@ -26,7 +26,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TurtleClaw implements ITurtleUpgrade
 {
-	private static ItemStack stack = new ItemStack(ModItems.turtleClaw, 1);
+	private static final ItemStack stack = new ItemStack(ModItems.turtleClaw, 1);
 	
 	@Override
 	public int getLegacyUpgradeID()
