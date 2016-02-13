@@ -24,19 +24,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class TurtleUtil {
 	
 	/**
-	 * Sets the position of the fake player to that of a turtle
-	 * @param player the player whose position will change
-	 * @param turtle the turtle for the new coordinates
-	 */
-	public static void setPlayerPosition( FakePlayer player, ITurtleAccess turtle )
-	{
-		player.setPosition(turtle.getPosition().getX(), turtle.getPosition().getY(), turtle.getPosition().getZ());
-	}
-	
-	/**
 	 * Adds an item to a turtle's inventory by finding the first available slot
 	 * Credit: austinv11
-	 * Updated to 1.8 on 2/2/2016
+	 * Updated to 1.8 on 2016/2/2
 	 * @param turtle The turtle to add items to
 	 * @param stack ItemStack to add to the inventory
 	 */
@@ -85,7 +75,7 @@ public class TurtleUtil {
 	
 	/**
 	 * Gets the closest entity to a turtle
-	 * Modified from functions by austinv11 on 2/2/2016
+	 * Modified from functions by austinv11 on 2016/2/2
 	 * @param turtle Turtle calling the command
 	 * @param player Fake player
 	 * @param dir EnumFacing of the turtle
@@ -127,7 +117,7 @@ public class TurtleUtil {
 	
 	/**
 	 * Finds the center to use for clicking a block
-	 * Credit: Cypher121, modified on 2/5/2016
+	 * Credit: Cypher121, modified on 2016/2/5
 	 * @param dir EnumFacing which is being clicked from
 	 * @return a Vector3f of the location
 	 */
@@ -168,7 +158,7 @@ public class TurtleUtil {
 	 * Get item transforms data
 	 * Credit: SquidDev
 	 * @param side TurtleSide containing the tool or model
-	 * @return
+	 * @return Matrix4f of the turtle transforms
 	 */
 	public static Matrix4f getTransforms(TurtleSide side)
 	{

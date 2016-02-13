@@ -63,7 +63,6 @@ public class TaskClawClick implements ILuaTask {
 		FakePlayer fakePlayer = FakePlayerProvider.get( turtle );
 		fakePlayer.setCurrentItemOrArmor(0, stack);
 		fakePlayer.setSneaking(sneaking);
-		TurtleUtil.setPlayerPosition(fakePlayer, turtle);
 		
 		// queue event, and cancel if the event is canceled
 		PlayerInteractEvent event = ForgeEventFactory.onPlayerInteract(fakePlayer, Action.RIGHT_CLICK_BLOCK, turtle.getWorld(), pos, face);

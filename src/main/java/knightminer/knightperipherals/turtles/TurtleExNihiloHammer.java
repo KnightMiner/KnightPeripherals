@@ -105,7 +105,6 @@ public class TurtleExNihiloHammer implements ITurtleUpgrade {
 			case Attack:
 				// grab a fake player to use for basic checks
 				FakePlayer fakePlayer = FakePlayerProvider.get(turtle);
-				TurtleUtil.setPlayerPosition(fakePlayer, turtle);
 				
 				// find the closest entity
 				Entity entity = TurtleUtil.getClosestEntity(turtle, fakePlayer, direction);
