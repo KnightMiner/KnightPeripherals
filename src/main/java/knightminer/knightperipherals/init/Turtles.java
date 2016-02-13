@@ -15,6 +15,7 @@ public class Turtles {
 	
 	public static void register()
 	{
+		// Clicking Turtle
 		if (Config.enableTurtleClaw)
 		{
 			ComputerCraftAPI.registerTurtleUpgrade( new TurtleClaw() );
@@ -24,6 +25,7 @@ public class Turtles {
 			ModLogger.logger.info( "Skipping registering clicking turtle, upgrade disabled");
 		}
 		
+		// Smashing Turtle
 		if ( Loader.isModLoaded( ModIds.EXNIHILO ) ) {
 			if (Config.enableTurtleHammer)
 			{
@@ -35,9 +37,10 @@ public class Turtles {
 				ModLogger.logger.info("Skipping registering smashing turtle, upgrade disabled");
 			}
 		} else {
-			ModLogger.logger.info("Cannot find Ex Nihilo, skipping smashing turtle");
+			ModLogger.logger.info( "Cannot find Ex Nihilo, skipping smashing turtle" );
 		}
 		
+		// Explosive Turtle
 		if (Config.enableTurtleTnt)
 		{
 			ComputerCraftAPI.registerTurtleUpgrade( new TurtleTnt() );
@@ -47,6 +50,7 @@ public class Turtles {
 			ModLogger.logger.info( "Skipping registering explosive turtle, upgrade disabled");
 		}
 		
+		// Ranged Turtle
 		if (Config.enableTurtleBow)
 		{
 			ComputerCraftAPI.registerTurtleUpgrade( new TurtleBow() );

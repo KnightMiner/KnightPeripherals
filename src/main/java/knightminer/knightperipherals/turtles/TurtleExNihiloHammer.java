@@ -109,7 +109,7 @@ public class TurtleExNihiloHammer implements ITurtleUpgrade {
 				World world = turtle.getWorld();
 				
 				// we cannot mine air
-				if ( !world.isAirBlock(x, y, z) )
+				if ( !world.isAirBlock(x, y, z) && !world.getBlock(x, y, z).getMaterial().isLiquid() )
 				{
 					// find the block to dig
 					Block block = world.getBlock(x, y, z);
