@@ -43,7 +43,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TurtleExNihiloHammer implements ITurtleUpgrade {
 	
-	private static ItemStack stack = GameRegistry.makeItemStack(ModIds.EXNIHILO_HAMMER, 0, 1, null);
+	private static final ItemStack stack = GameRegistry.makeItemStack(ModIds.EXNIHILO_HAMMER, 0, 1, null);
 	
 	public static HashMap<Entity, ITurtleAccess> map = new HashMap<Entity, ITurtleAccess>();
 
@@ -127,7 +127,7 @@ public class TurtleExNihiloHammer implements ITurtleUpgrade {
 				World world = turtle.getWorld();
 				
 				// we cannot mine air
-				if ( !world.isAirBlock(pos) )
+				if ( !world.isAirBlock(pos) && !world.getBlockState(pos).getBlock().getMaterial().isLiquid() )
 				{
 					// find the block to dig
 					IBlockState state = world.getBlockState(pos);
