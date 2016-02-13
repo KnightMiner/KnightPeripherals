@@ -13,10 +13,16 @@ public class Reference {
 	public static final String CLIENT_PROXY_CLASS = PACKAGE + "ClientProxy";
 	public static final String SERVER_PROXY_CLASS = PACKAGE + "CommonProxy";
 
-	// turtle IDs
+	// legacy turtle IDs
 	public static final int UPGRADE_LEGACY_CLAW = 190;
 	public static final int UPGRADE_LEGACY_HAMMER = 191;
+	public static final int UPGRADE_LEGACY_BOW = 192;
+	public static final int UPGRADE_LEGACY_TNT = 193;
+	
+	// turtle IDs
 	public static final String UPGRADE_CLAW = MOD_ID + ":turtle_claw";
 	public static final String UPGRADE_HAMMER = MOD_ID + ":ex_nihilo_hammer";
+	public static final String UPGRADE_BOW = MOD_ID + ":bow";
+	public static final String UPGRADE_TNT = MOD_ID + ":tnt";
 
 }

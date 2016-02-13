@@ -7,8 +7,10 @@ import dan200.computercraft.api.ComputerCraftAPI;
 import knightminer.knightperipherals.reference.Config;
 import knightminer.knightperipherals.reference.ModIds;
 import knightminer.knightperipherals.reference.Reference;
+import knightminer.knightperipherals.turtles.TurtleBow;
 import knightminer.knightperipherals.turtles.TurtleClaw;
 import knightminer.knightperipherals.turtles.TurtleExNihiloHammer;
+import knightminer.knightperipherals.turtles.TurtleTnt;
 import knightminer.knightperipherals.util.ModLogger;
 
 public class Turtles {
@@ -16,6 +18,7 @@ public class Turtles {
 	
 	public static void register()
 	{
+		// Clicking Turtle
 		if (Config.enableTurtleClaw)
 		{
 			ComputerCraftAPI.registerTurtleUpgrade( new TurtleClaw() );
@@ -25,6 +28,7 @@ public class Turtles {
 			ModLogger.logger.info( "Skipping registering clicking turtle, upgrade disabled");
 		}
 		
+		// Smashing Turtle
 		if ( Loader.isModLoaded( ModIds.EXNIHILO ) ) {
 			if (Config.enableTurtleHammer)
 			{
@@ -37,6 +41,26 @@ public class Turtles {
 			}
 		} else {
 			ModLogger.logger.info( "Cannot find Ex Nihilo, skipping smashing turtle" );
+		}
+		
+		// Explosive Turtle
+		if (Config.enableTurtleTnt)
+		{
+			ComputerCraftAPI.registerTurtleUpgrade( new TurtleTnt() );
+			list.add( Reference.UPGRADE_TNT);
+		} else
+		{
+			ModLogger.logger.info( "Skipping registering explosive turtle, upgrade disabled");
+		}
+		
+		// Ranged Turtle
+		if (Config.enableTurtleBow)
+		{
+			ComputerCraftAPI.registerTurtleUpgrade( new TurtleBow() );
+			list.add( Reference.UPGRADE_BOW);
+		} else
+		{
+			ModLogger.logger.info( "Skipping registering ranged turtle, upgrade disabled");
 		}
 	}
 }
