@@ -18,5 +18,7 @@ public class Reference {
 	public static final int UPGRADE_HAMMER = 191;
 	public static final int UPGRADE_BOW = 192;
 	public static final int UPGRADE_TNT = 193;
+	public static final int UPGRADE_HAMMER_COMPRESSED = 194;
+	public static final int UPGRADE_LASER = 195;
 
 }

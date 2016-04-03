@@ -15,23 +15,22 @@ public class Turtles {
 	
 	public static void register()
 	{
-		// Clicking Turtle
 		if (Config.enableTurtleClaw)
 		{
 			ComputerCraftAPI.registerTurtleUpgrade( new TurtleClaw() );
-			list.add( Reference.UPGRADE_CLAW);
+			list.add(Reference.UPGRADE_CLAW);
 		} else
 		{
 			ModLogger.logger.info( "Skipping registering clicking turtle, upgrade disabled");
 		}
 		
 		// Smashing Turtle
-		if ( Loader.isModLoaded( ModIds.EXNIHILO ) ) {
+		if ( Loader.isModLoaded( ModIds.EX_NIHILO ) ) {
 			if (Config.enableTurtleHammer)
 			{
 				ModLogger.logger.info("Found Ex Nihilo, registering hammer peripheral");
-				ComputerCraftAPI.registerTurtleUpgrade( new TurtleExNihiloHammer() );
-				list.add( Reference.UPGRADE_HAMMER);
+				ComputerCraftAPI.registerTurtleUpgrade( new TurtleHammer() );
+				list.add(Reference.UPGRADE_HAMMER);
 			} else
 			{
 				ModLogger.logger.info("Skipping registering smashing turtle, upgrade disabled");
@@ -44,7 +43,7 @@ public class Turtles {
 		if (Config.enableTurtleTnt)
 		{
 			ComputerCraftAPI.registerTurtleUpgrade( new TurtleTnt() );
-			list.add( Reference.UPGRADE_TNT);
+			list.add(Reference.UPGRADE_TNT);
 		} else
 		{
 			ModLogger.logger.info( "Skipping registering explosive turtle, upgrade disabled");
@@ -54,10 +53,25 @@ public class Turtles {
 		if (Config.enableTurtleBow)
 		{
 			ComputerCraftAPI.registerTurtleUpgrade( new TurtleBow() );
-			list.add( Reference.UPGRADE_BOW);
+			list.add(Reference.UPGRADE_BOW);
 		} else
 		{
 			ModLogger.logger.info( "Skipping registering ranged turtle, upgrade disabled");
+		}
+		
+		// Crushing Turtle
+		if ( Loader.isModLoaded( ModIds.EX_COMPRESSUM ) ) {
+			if (Config.enableTurtleCompressedHammer)
+			{
+				ModLogger.logger.info("Found Ex Compressum, registering hammer peripheral");
+				ComputerCraftAPI.registerTurtleUpgrade( new TurtleHammerCompressed() );
+				list.add(Reference.UPGRADE_HAMMER_COMPRESSED);
+			} else
+			{
+				ModLogger.logger.info("Skipping registering crushing turtle, upgrade disabled");
+			}
+		} else {
+			ModLogger.logger.info( "Cannot find Ex Compressum, skipping crushing turtle" );
 		}
 	}
 }

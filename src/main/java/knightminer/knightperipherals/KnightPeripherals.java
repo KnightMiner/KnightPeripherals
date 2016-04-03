@@ -11,7 +11,7 @@ import knightminer.knightperipherals.init.Turtles;
 import knightminer.knightperipherals.proxy.CommonProxy;
 import knightminer.knightperipherals.reference.Config;
 import knightminer.knightperipherals.reference.Reference;
-import knightminer.knightperipherals.turtles.TurtleExNihiloHammer;
+import knightminer.knightperipherals.util.TurtleDropCollector;
 import net.minecraftforge.common.MinecraftForge;
 
 @Mod( modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION,
@@ -30,8 +30,8 @@ public class KnightPeripherals {
 		
 		proxy.registerIcons();
 		
-		// keep track of entity item drops
-		MinecraftForge.EVENT_BUS.register(new TurtleExNihiloHammer());
+		// keep track of entity item drops to place in turtle inventories
+		MinecraftForge.EVENT_BUS.register(new TurtleDropCollector());
 	}
 
 	@EventHandler

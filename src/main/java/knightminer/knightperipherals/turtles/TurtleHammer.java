@@ -1,11 +1,9 @@
 package knightminer.knightperipherals.turtles;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -23,6 +21,7 @@ import knightminer.knightperipherals.reference.ModIds;
 import knightminer.knightperipherals.reference.Reference;
 import knightminer.knightperipherals.util.FakePlayerProvider;
 import knightminer.knightperipherals.util.ModLogger;
+import knightminer.knightperipherals.util.TurtleDropCollector;
 import knightminer.knightperipherals.util.TurtleUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -33,13 +32,28 @@ import net.minecraft.util.Facing;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.event.entity.living.LivingDropsEvent;
 
-public class TurtleExNihiloHammer implements ITurtleUpgrade {
+public class TurtleHammer implements ITurtleUpgrade {
+	private static final Item item = GameRegistry.findItem( ModIds.EX_NIHILO, ModIds.EX_NIHILO_HAMMER );
+
+	// Itemstack for crafting/display
+	protected Item getItem()
+	{
+		return item;
+	}
 	
-	public static HashMap<Entity, ITurtleAccess> map = new HashMap<Entity, ITurtleAccess>();
-	private static final Item item = GameRegistry.findItem( ModIds.EXNIHILO, ModIds.EXNIHILO_HAMMER );
-
+	// Reward list
+	protected Collection<Smashable> getRewards(Block block, int meta)
+	{
+		return HammerRegistry.getRewards(block, meta);
+	}
+	
+	// Config boolean
+	protected boolean canCraft()
+	{
+		return Config.craftTurtleHammer;
+	}
+	
 	@Override
 	public int getUpgradeID()
 	{
@@ -61,9 +75,9 @@ public class TurtleExNihiloHammer implements ITurtleUpgrade {
 	@Override
 	public ItemStack getCraftingItem()
 	{
-		if (Config.craftTurtleHammer)
+		if (canCraft())
 		{
-			return new ItemStack(item, 1);
+			return new ItemStack(getItem(), 1);
 		} else
 		{
 			ModLogger.logger.info("Recipe for smashing turtle disabled");
@@ -93,7 +107,7 @@ public class TurtleExNihiloHammer implements ITurtleUpgrade {
 				if (entity != null && entity.canAttackWithItem() && !entity.hitByEntity(fakePlayer))
 				{
 					// mark it to collect the drops, then attack
-					map.put(entity, turtle);
+					TurtleDropCollector.addDrop(turtle, entity);
 					if (entity.attackEntityFrom(DamageSource.causePlayerDamage(fakePlayer), 7)) {
 						return TurtleCommandResult.success();
 					}
@@ -116,7 +130,7 @@ public class TurtleExNihiloHammer implements ITurtleUpgrade {
 					int blockMeta = world.getBlockMetadata(x, y, z);
 					
 					// get a list of products for this block
-					ArrayList<Smashable> rewards = HammerRegistry.getRewards(block, blockMeta);
+					Collection<Smashable> rewards = getRewards(block, blockMeta);
 					
 					// if we have something
 					if ( rewards != null && rewards.size() > 0 )
@@ -128,9 +142,7 @@ public class TurtleExNihiloHammer implements ITurtleUpgrade {
 							Smashable reward = it.next();
 										
 							if ( world.rand.nextFloat() <= reward.chance )
-							{
 								TurtleUtil.addToInv(turtle, new ItemStack(reward.item, 1, reward.meta));
-							}
 							
 						}
 					// otherwise, check if a tool is needed at all
@@ -172,21 +184,10 @@ public class TurtleExNihiloHammer implements ITurtleUpgrade {
 	@Override
 	public IIcon getIcon(ITurtleAccess turtle, TurtleSide side)
 	{
-		return item.getIconFromDamage(0);
+		return getItem().getIconFromDamage(0);
 	}
 
 	@Override
 	public void update(ITurtleAccess turtle, TurtleSide side){}
-	
-	// keep track of entity drops to pull into the turtle's inventory
-	// Credit: austinv11
-	@SubscribeEvent
-	public void onDrops(LivingDropsEvent event) {
-		if (map.containsKey(event.entity)) {
-			TurtleUtil.addItemListToInv(TurtleUtil.entityItemsToItemStack(event.drops), map.get(event.entity));
-			event.setCanceled(true);
-			map.remove(event.entity);
-		}
-	}
 
 }
