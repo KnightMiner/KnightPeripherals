@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class ModItems {
-	public static Item turtleClaw;
+	public static Item turtleClaw, miningLaser;
 
 	public static void register()
 	{
@@ -17,6 +17,12 @@ public class ModItems {
 			turtleClaw = new ItemBase().setUnlocalizedName("turtleClaw").setTextureName("turtle_claw");
 			GameRegistry.registerItem(turtleClaw, "turtle_claw");
 		}
+		
+		if (Config.enableTurtleLaser)
+		{
+			miningLaser = new ItemBase().setUnlocalizedName("turtleLaser").setTextureName("turtle_laser");
+			GameRegistry.registerItem(miningLaser, "turtle_laser");
+		}
 	}
 	
 	public static void addRecipes()
@@ -24,6 +30,11 @@ public class ModItems {
 		if (Config.enableTurtleClaw && Config.craftTurtleClaw)
 		{
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(turtleClaw, 1), "I I", "RQR", " I ", 'I', "ingotIron", 'R', "dustRedstone", 'Q', "gemQuartz"));
+		}
+		
+		if (Config.enableTurtleLaser && Config.craftTurtleLaser)
+		{
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(miningLaser, 1), " D ", "IGI", "IRI", 'I', "ingotIron", 'G', "ingotGold", 'R', "dustRedstone", 'D', "blockDiamond"));
 		}
 	}
 }

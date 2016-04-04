@@ -73,5 +73,15 @@ public class Turtles {
 		} else {
 			ModLogger.logger.info( "Cannot find Ex Compressum, skipping crushing turtle" );
 		}
+		
+		// Mining Laser Turtle
+		if (Config.enableTurtleLaser)
+		{
+			ComputerCraftAPI.registerTurtleUpgrade( new TurtleLaser() );
+			list.add(Reference.UPGRADE_LASER);
+		} else
+		{
+			ModLogger.logger.info("Skipping registering mining laser turtle, upgrade disabled");
+		}
 	}
 }

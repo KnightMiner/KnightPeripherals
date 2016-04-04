@@ -1,9 +1,11 @@
+itemGroup.tabKnightPeripherals=KnightPeripherals
+
 item.turtleClaw.name=Turtle Claw
+item.turtleLaser.name=Mining Laser Upgrade
 
 turtleUpgrade.claw=Clicking
 turtleUpgrade.hammer=Smashing
 turtleUpgrade.hammerCompressed=Crushing
 turtleUpgrade.tnt=Explosive
 turtleUpgrade.bow=Ranged
-
-itemGroup.tabKnightPeripherals=KnightPeripherals
+turtleUpgrade.laser=Mining Laser
