@@ -19,7 +19,7 @@ public class TurtleUtil {
 	
 	/**
 	 * Adds an item to a turtle's inventory by finding the first available slot
-	 * Credit: austinv11
+	 * Credit: austinv11, modified 4/3/2016
 	 * @param turtle The turtle to add items to
 	 * @param stack ItemStack to add to the inventory
 	 */
@@ -35,7 +35,7 @@ public class TurtleUtil {
 				drop = false;
 				break;
 			}
-			if (currentStack.isStackable() && currentStack.isItemEqual(stack)) {
+			if (currentStack.isStackable() && currentStack.isItemEqual(stack) && ItemStack.areItemStackTagsEqual(currentStack, stack)) {
 				int space = currentStack.getMaxStackSize() - currentStack.stackSize;
 				if (stack.stackSize > space) {
 					currentStack.stackSize = currentStack.getMaxStackSize();
