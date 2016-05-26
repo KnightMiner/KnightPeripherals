@@ -60,8 +60,11 @@ public class TurtleParticleMessage implements IMessage {
 					for (float px = message.startX; px <= message.endX; px += 0.1D)
 						for (float py = message.startY; py <= message.endY; py += 0.1D)
 							for (float pz = message.startZ; pz <= message.endZ; pz += 0.1D)
-								ctx.getClientHandler().handleParticles(new S2APacketParticles("reddust", px + 0.5F,
-								        py + 0.5F, pz + 0.5F, -1.0F, 1.0F, 1.0F, 1.0F, 0));
+								ctx.getClientHandler().handleParticles(new S2APacketParticles(
+										"reddust",
+										px + 0.5F, py + 0.5F, pz + 0.5F,
+								        -1.0F, 1.0F, 1.0F,
+								        1.0F, 0));
 
 					break;
 

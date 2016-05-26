@@ -31,7 +31,24 @@ public class PeripheralSensor implements IPeripheral {
 	public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments)
 	        throws LuaException, InterruptedException {
 
+		// we use the same range arg for all methods, so process it outside of the switch
 		int range = Config.sensorRange;
+		if (method != 0) { // except the getter of course
+			if (arguments.length > 0 && !(arguments[0] instanceof Double))
+				throw new LuaException("Bad argument #1 (expected number)");
+
+			if (arguments.length > 0) {
+				// yes, I have to cast it three times since the classes can only
+				// be cast to the corresponding primitive type
+				int rangeArg = (int)(double)(Double) arguments[0];
+				// if the arg is too big, throw an exception
+				if (rangeArg > range)
+					throw new LuaException("Range cannot be greater than " + range);
+				else
+					range = rangeArg;
+			}
+		}
+		
 		switch (method) {
 			// getRange - returns the maximum range for the sensor
 			case 0:
@@ -42,18 +59,8 @@ public class PeripheralSensor implements IPeripheral {
 			case 1:
 			case 2:
 			case 3: {
-				// test the first parameter for a number
-				if (arguments.length > 0 && !(arguments[0] instanceof Double)) {
-					throw new LuaException("Bad argument #1 (expected number)");
-				}
-
 				// setup the parameters
 				int direction = method == 2 ? 1 : method == 3 ? 0 : turtle.getDirection();
-
-				// yes, I have to cast it three times since the classes can only
-				// be cast to the corresponding primitive type
-				if (arguments.length > 0)
-					range = (int) (double) (Double) arguments[0];
 
 				// execute main task
 				return context.executeMainThreadTask(new TaskSensorSonar(turtle, direction, range));
@@ -63,18 +70,8 @@ public class PeripheralSensor implements IPeripheral {
 			case 4:
 			case 5:
 			case 6: {
-				// test the first parameter for a number
-				if (arguments.length > 0 && !(arguments[0] instanceof Double)) {
-					throw new LuaException("Bad argument #1 (expected number)");
-				}
-
 				// setup the parameters
 				int direction = method == 5 ? 1 : method == 6 ? 0 : turtle.getDirection();
-
-				// yes, I have to cast it three times since the classes can only
-				// be cast to the corresponding primitive type
-				if (arguments.length > 0)
-					range = (int) (double) (Double) arguments[0];
 
 				Object[] result = context.executeMainThreadTask(new TaskSensorDensity(turtle, direction, range));
 

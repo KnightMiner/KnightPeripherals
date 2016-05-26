@@ -24,35 +24,29 @@ public class TaskSensorSonar implements ILuaTask {
 
 	@Override
 	public Object[] execute() throws LuaException {
+		ChunkCoordinates turtlePos = turtle.getPosition();
+		World world = turtle.getWorld();
+		int x = turtlePos.posX;
+		int y = turtlePos.posY;
+		int z = turtlePos.posZ;
+
 		int distance = 0;
 		boolean found = false;
 		for (int i = 0; i < range; i++) {
-			ChunkCoordinates turtlePos = turtle.getPosition();
-			World world = turtle.getWorld();
-			int startX = turtlePos.posX;
-			int startY = turtlePos.posY;
-			int startZ = turtlePos.posZ;
-			int x = startX;
-			int y = startY;
-			int z = startZ;
-
 			x += Facing.offsetsXForSide[direction];
 			y += Facing.offsetsYForSide[direction];
 			z += Facing.offsetsZForSide[direction];
 
-			// first, make sure the block is either a liquid or air, if not then
-			// end
+			// first, make sure the block is either a liquid or air, if not end
 			// note liquids increase the value
-			int result = 0;
-			if (world.isAirBlock(x, y, z))
-				result = 1;
-			else if (world.getBlock(x, y, z).getMaterial().isLiquid())
+			int result = 1;
+			if (world.getBlock(x, y, z).getMaterial().isLiquid())
 				result = 2; // liquids add two to the distance
-			else {
+			else if (!world.isAirBlock(x, y, z)) {
+				distance += 1;
 				found = true;
 				break;
 			}
-
 			distance += result;
 
 			// next, check if the block contains an entity

@@ -74,7 +74,7 @@ public class TurtleLaser implements ITurtleUpgrade {
 				// back out if there is no fuel
 				// note that the laser does still fire if its journey is limited
 				// by fuel, it just does not go as far
-				if (turtle.getFuelLevel() == 0)
+				if (turtle.isFuelNeeded() && turtle.getFuelLevel() == 0)
 					return TurtleCommandResult.failure("No fuel");
 
 				// start block location, used to make boxes for particles and
@@ -129,14 +129,23 @@ public class TurtleLaser implements ITurtleUpgrade {
 
 				// fuel is consumed all at once for efficiency, we already check
 				// earlier if we have enough
-				turtle.consumeFuel(fuelCost);
+				if (turtle.isFuelNeeded())
+					turtle.consumeFuel(fuelCost);
 
+				// coordinates for bounding boxes and particles
+				int boxXStart = Math.min(startX, x);
+				int boxYStart = Math.min(startY, y);
+				int boxZStart = Math.min(startZ, z);
+				int boxXEnd = Math.max(startX, x);
+				int boxYEnd = Math.max(startY, y);
+				int boxZEnd = Math.max(startZ, z);
+				
 				// damage entities in the laser beam
 				// note that it does not specify a type of entity, so that means
 				// entities such as items and paintings will also be damaged
-				AxisAlignedBB box = AxisAlignedBB.getBoundingBox(Math.min(startX, x), Math.min(startY, y),
-				        Math.min(startZ, z), Math.max(startX, x) + 1.0D, Math.max(startY, y) + 1.0D,
-				        Math.max(startZ, z) + 1.0D);
+				AxisAlignedBB box = AxisAlignedBB.getBoundingBox(
+						boxXStart, boxYStart, boxZStart,
+						boxXEnd + 1.0D, boxYEnd + 1.0D, boxZEnd + 1.0D);
 				@SuppressWarnings("unchecked")
 				List<Entity> entities = world.getEntitiesWithinAABB(Entity.class, box);
 				for (Entity entity : entities)
@@ -144,7 +153,7 @@ public class TurtleLaser implements ITurtleUpgrade {
 
 				// draw the laser
 				KnightPeripheralsPacketHandler.INSTANCE.sendToAllAround(
-				        new TurtleParticleMessage(0, startX, startY, startZ, x, y, z),
+				        new TurtleParticleMessage(0, boxXStart, boxYStart, boxZStart, boxXEnd, boxYEnd, boxZEnd),
 				        new TargetPoint(world.provider.dimensionId, x, y, z, 64));
 
 				// we fired the laser, so return true

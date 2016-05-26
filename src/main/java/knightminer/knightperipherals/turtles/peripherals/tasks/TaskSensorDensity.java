@@ -22,12 +22,9 @@ public class TaskSensorDensity implements ILuaTask {
 	public Object[] execute() throws LuaException {
 		ChunkCoordinates turtlePos = turtle.getPosition();
 		World world = turtle.getWorld();
-		int startX = turtlePos.posX;
-		int startY = turtlePos.posY;
-		int startZ = turtlePos.posZ;
-		int x = startX;
-		int y = startY;
-		int z = startZ;
+		int x = turtlePos.posX;
+		int y = turtlePos.posY;
+		int z = turtlePos.posZ;
 
 		double density = 0;
 		for (int i = 0; i < range; i++) {
