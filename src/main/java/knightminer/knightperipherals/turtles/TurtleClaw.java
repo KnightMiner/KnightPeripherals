@@ -9,78 +9,65 @@ import dan200.computercraft.api.turtle.TurtleCommandResult;
 import dan200.computercraft.api.turtle.TurtleSide;
 import dan200.computercraft.api.turtle.TurtleUpgradeType;
 import dan200.computercraft.api.turtle.TurtleVerb;
+import knightminer.knightperipherals.KnightPeripherals;
 import knightminer.knightperipherals.init.ModIcons;
 import knightminer.knightperipherals.init.ModItems;
 import knightminer.knightperipherals.reference.Config;
 import knightminer.knightperipherals.reference.Reference;
 import knightminer.knightperipherals.turtles.peripherals.PeripheralClaw;
-import knightminer.knightperipherals.util.ModLogger;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
-public class TurtleClaw implements ITurtleUpgrade
-{
+public class TurtleClaw implements ITurtleUpgrade {
 
 	@Override
-	public int getUpgradeID()
-	{
+	public int getUpgradeID() {
 		return Reference.UPGRADE_CLAW;
 	}
 
 	@Override
-	public String getUnlocalisedAdjective()
-	{
+	public String getUnlocalisedAdjective() {
 		return "turtleUpgrade.claw";
 	}
 
 	@Override
-	public TurtleUpgradeType getType()
-	{
+	public TurtleUpgradeType getType() {
 		return TurtleUpgradeType.Peripheral;
 	}
-	
+
 	@Override
-	public ItemStack getCraftingItem()
-	{
-		if (Config.craftTurtleClaw)
-		{
-			return new ItemStack(ModItems.turtleClaw, 1);
-		} else
-		{
-			ModLogger.logger.info("Recipe for clicking turtle disabled");
+	public ItemStack getCraftingItem() {
+		if (Config.craftTurtleClaw) {
+			return new ItemStack(ModItems.turtleUpgrade, 1, 0);
+		}
+		else {
+			KnightPeripherals.logger.info("Recipe for clicking turtle disabled");
 			return null;
 		}
 	}
 
 	@Override
-	public IPeripheral createPeripheral(ITurtleAccess turtle, TurtleSide side)
-	{
+	public IPeripheral createPeripheral(ITurtleAccess turtle, TurtleSide side) {
 		return new PeripheralClaw(turtle);
 	}
 
 	@Override
-	public TurtleCommandResult useTool(ITurtleAccess turtle, TurtleSide side, TurtleVerb verb, int direction)
-	{
+	public TurtleCommandResult useTool(ITurtleAccess turtle, TurtleSide side, TurtleVerb verb, int direction) {
 		return null;
 	}
-	
-	@SideOnly( Side.CLIENT )
+
+	@SideOnly(Side.CLIENT)
 	@Override
-	public IIcon getIcon(ITurtleAccess turtle, TurtleSide side)
-	{
-		if ( side == TurtleSide.Left )
-		{
+	public IIcon getIcon(ITurtleAccess turtle, TurtleSide side) {
+		if (side == TurtleSide.Left) {
 			return ModIcons.turtleClawLeft;
-		} else
-		{
+		}
+		else {
 			return ModIcons.turtleClawRight;
 		}
 	}
 
 	@Override
-	public void update(ITurtleAccess turtle, TurtleSide side)
-	{
+	public void update(ITurtleAccess turtle, TurtleSide side) {}
 
-	}
-	
 }
