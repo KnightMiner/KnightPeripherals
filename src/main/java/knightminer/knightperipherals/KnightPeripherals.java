@@ -30,6 +30,7 @@ public class KnightPeripherals {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		Config.register(event.getSuggestedConfigurationFile());
+		KnightPeripheralsPacketHandler.init();
 
 		ModItems.register();
 		ModItems.addRecipes();

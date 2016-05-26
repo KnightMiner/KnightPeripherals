@@ -15,6 +15,8 @@ import knightminer.knightperipherals.init.ModItems;
 import knightminer.knightperipherals.reference.Config;
 import knightminer.knightperipherals.reference.Reference;
 import knightminer.knightperipherals.util.ModLogger;
+import knightminer.knightperipherals.util.KnightPeripheralsPacketHandler;
+import knightminer.knightperipherals.util.TurtleParticleMessage;
 import knightminer.knightperipherals.util.TurtleUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -155,6 +157,10 @@ public class TurtleLaser implements ITurtleUpgrade {
 							world.spawnParticle("reddust", px + 0.5D, py + 0.5D, pz + 0.5D, -1.0D, 0.5D, 1.0D);
 						}
 				
+				KnightPeripheralsPacketHandler.INSTANCE.sendToAllAround(
+				        new TurtleParticleMessage(0, startX, startY, startZ, x, y, z),
+				        new TargetPoint(world.provider.dimensionId, x, y, z, 64));
+
 				// we fired the laser, so return true
 				return TurtleCommandResult.success();
 				
