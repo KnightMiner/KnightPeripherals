@@ -12,45 +12,40 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class CreativeTab {
-	public static final CreativeTabs tab = new CreativeTabs("tabKnightPeripherals")
-	{
+	public static final CreativeTabs tab = new CreativeTabs("tabKnightPeripherals") {
 		@Override
 		@SideOnly(Side.CLIENT)
-		public Item getTabIconItem()
-		{
-			return ModItems.turtleClaw;
+		public Item getTabIconItem() {
+			return ModItems.turtleUpgrade;
 		}
 
 		// add turtle upgrades to the creative tab
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		@Override
 		@SideOnly(Side.CLIENT)
-		public void displayAllReleventItems(List list)
-		{
+		public void displayAllReleventItems(List list) {
 			// keep all normal items
 			super.displayAllReleventItems(list);
-			
+
 			// list of upgrade IDs
 			List<Integer> upgrades = Turtles.list;
-			
-			if (!upgrades.isEmpty())
-			{
+
+			if (!upgrades.isEmpty()) {
 				// turtle IDs
 				ItemStack turtle = GameRegistry.findItemStack(ModIds.COMPUTERCRAFT, ModIds.COMPUTERCRAFT_TURTLE, 1);
-				ItemStack turtleAdv = GameRegistry.findItemStack(ModIds.COMPUTERCRAFT, ModIds.COMPUTERCRAFT_TURTLEADV, 1);
-				
+				ItemStack turtleAdv = GameRegistry.findItemStack(ModIds.COMPUTERCRAFT, ModIds.COMPUTERCRAFT_TURTLEADV,
+	                    1);
+
 				// add normal turtles
-				for (int i: upgrades)
-				{
+				for (int i : upgrades) {
 					ItemStack upgrade = turtle.copy();
 					upgrade.stackTagCompound = new NBTTagCompound();
 					upgrade.stackTagCompound.setShort("leftUpgrade", (short) i);
 					list.add(upgrade);
 				}
-				
+
 				// add advance turtles
-				for (int i: upgrades)
-				{
+				for (int i : upgrades) {
 					ItemStack upgrade = turtleAdv.copy();
 					upgrade.stackTagCompound = new NBTTagCompound();
 					upgrade.stackTagCompound.setShort("leftUpgrade", (short) i);
@@ -58,6 +53,6 @@ public class CreativeTab {
 				}
 			}
 		}
-		
+
 	};
 }

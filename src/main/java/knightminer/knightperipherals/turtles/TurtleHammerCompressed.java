@@ -13,37 +13,33 @@ import net.minecraft.item.Item;
 
 public class TurtleHammerCompressed extends TurtleHammer {
 
-	private static final Item item = GameRegistry.findItem( ModIds.EX_COMPRESSUM, ModIds.EX_COMPRESSUM_HAMMER );
-	
+	private static final Item item = GameRegistry.findItem(ModIds.EX_COMPRESSUM, ModIds.EX_COMPRESSUM_HAMMER);
+
 	// Itemstack for crafting/display
 	@Override
-	protected Item getItem()
-	{
+	protected Item getItem() {
 		return item;
 	}
-	
+
 	// Reward list
-	protected Collection<Smashable> getRewards(Block block, int meta)
-	{
+	@Override
+	protected Collection<Smashable> getRewards(Block block, int meta) {
 		return CompressedHammerRegistry.getRewards(block, meta);
 	}
 
 	// Config boolean
 	@Override
-	protected boolean canCraft()
-	{
+	protected boolean canCraft() {
 		return Config.craftTurtleCompressedHammer;
 	}
-	
+
 	@Override
-	public int getUpgradeID()
-	{
+	public int getUpgradeID() {
 		return Reference.UPGRADE_HAMMER_COMPRESSED;
 	}
 
 	@Override
-	public String getUnlocalisedAdjective()
-	{
+	public String getUnlocalisedAdjective() {
 		return "turtleUpgrade.hammerCompressed";
 	}
 }

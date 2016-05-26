@@ -8,16 +8,16 @@ import knightminer.knightperipherals.util.FakePlayerProvider;
 import net.minecraft.world.World;
 
 public class TaskTntExplode implements ILuaTask {
-	
+
 	private ITurtleAccess turtle;
-	
-	public TaskTntExplode( ITurtleAccess turtle )
-	{
+
+	public TaskTntExplode(ITurtleAccess turtle) {
 		this.turtle = turtle;
 	}
 
+	@Override
 	public Object[] execute() throws LuaException {
-		
+
 		// place explosion on the turtle location
 		World world = turtle.getWorld();
 		int x = turtle.getPosition().posX;
@@ -26,12 +26,12 @@ public class TaskTntExplode implements ILuaTask {
 
 		// destroy the turtle so it does not block the explosion
 		world.setBlockToAir(x, y, z);
-		
+
 		// trigger the actual explosion
 		world.createExplosion(FakePlayerProvider.get(turtle), x, y, z, Config.tntPower, true);
 
 		// return success, even though we really won't reach here
-		return new Object[]{ true };
+		return new Object[] { true };
 	}
-	
+
 }

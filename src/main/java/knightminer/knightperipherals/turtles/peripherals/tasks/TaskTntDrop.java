@@ -12,14 +12,15 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 
 public class TaskTntDrop implements ILuaTask {
-	
+
 	private ITurtleAccess turtle;
 	private World world;
 	private int x, y, z, slot;
 	private IInventory inv;
 	private ItemStack stack;
 
-	public TaskTntDrop(ITurtleAccess turtle, World world, int x, int y, int z, IInventory inv, ItemStack stack, int slot) {
+	public TaskTntDrop(ITurtleAccess turtle, World world, int x, int y, int z, IInventory inv, ItemStack stack,
+	        int slot) {
 		this.turtle = turtle;
 		this.world = world;
 		this.x = x;
@@ -34,11 +35,10 @@ public class TaskTntDrop implements ILuaTask {
 	public Object[] execute() throws LuaException {
 		// blame this guy for the TNT drop
 		FakePlayer fakePlayer = FakePlayerProvider.get(turtle);
-		
+
 		// decrease the stack size, deleting the stack if needed
 		stack.stackSize -= 1;
-		if (stack.stackSize == 0)
-		{
+		if (stack.stackSize == 0) {
 			inv.setInventorySlotContents(slot, null);
 		}
 
@@ -46,8 +46,8 @@ public class TaskTntDrop implements ILuaTask {
 		Entity tnt = new EntityTNTPrimed(world, x + 0.5D, y + 0.5D, z + 0.5D, fakePlayer);
 		if (!world.isRemote)
 			world.spawnEntityInWorld(tnt);
-		
-		return new Object[]{ true };
+
+		return new Object[] { true };
 	}
 
 }

@@ -5,8 +5,7 @@ import net.minecraftforge.common.MinecraftForge;
 
 public class ClientProxy extends CommonProxy {
 	@Override
-	public void registerIcons()
-	{
+	public void registerIcons() {
 		MinecraftForge.EVENT_BUS.register(new ModIcons());
 	}
 }
