@@ -9,20 +9,20 @@ import net.minecraftforge.client.event.TextureStitchEvent;
 
 @SideOnly(Side.CLIENT)
 public class ModIcons {
-	
-	public static IIcon turtleClawLeft, turtleClawRight, turtleBow;
-	
+
+	public static IIcon turtleClawLeft, turtleClawRight, turtleBow, turtleSensorLeft, turtleSensorRight;
+
 	@SubscribeEvent
-	public void register(TextureStitchEvent event)
-	{
+	public void register(TextureStitchEvent event) {
 		boolean terrain = event.map.getTextureType() == 0;
-		
-		if(terrain)
-		{
+
+		if (terrain) {
 			turtleClawLeft = event.map.registerIcon(Reference.RESOURCE_LOCATION + ":turtle_claw_left");
 			turtleClawRight = event.map.registerIcon(Reference.RESOURCE_LOCATION + ":turtle_claw_right");
-		} else
-		{
+			turtleSensorLeft = event.map.registerIcon(Reference.RESOURCE_LOCATION + ":turtle_sensor_left");
+			turtleSensorRight = event.map.registerIcon(Reference.RESOURCE_LOCATION + ":turtle_sensor_right");
+		}
+		else {
 			turtleBow = event.map.registerIcon(Reference.RESOURCE_LOCATION + ":turtle_bow");
 		}
 	}

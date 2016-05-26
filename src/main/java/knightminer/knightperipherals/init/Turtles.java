@@ -4,84 +4,94 @@ import java.util.ArrayList;
 
 import cpw.mods.fml.common.Loader;
 import dan200.computercraft.api.ComputerCraftAPI;
+import knightminer.knightperipherals.KnightPeripherals;
 import knightminer.knightperipherals.reference.Config;
 import knightminer.knightperipherals.reference.ModIds;
 import knightminer.knightperipherals.reference.Reference;
-import knightminer.knightperipherals.turtles.*;
-import knightminer.knightperipherals.util.ModLogger;
+import knightminer.knightperipherals.turtles.TurtleBow;
+import knightminer.knightperipherals.turtles.TurtleClaw;
+import knightminer.knightperipherals.turtles.TurtleHammer;
+import knightminer.knightperipherals.turtles.TurtleHammerCompressed;
+import knightminer.knightperipherals.turtles.TurtleLaser;
+import knightminer.knightperipherals.turtles.TurtleSensor;
+import knightminer.knightperipherals.turtles.TurtleTnt;
 
 public class Turtles {
 	public static ArrayList<Integer> list = new ArrayList<Integer>();
-	
-	public static void register()
-	{
-		if (Config.enableTurtleClaw)
-		{
-			ComputerCraftAPI.registerTurtleUpgrade( new TurtleClaw() );
+
+	public static void register() {
+		if (Config.enableTurtleClaw) {
+			ComputerCraftAPI.registerTurtleUpgrade(new TurtleClaw());
 			list.add(Reference.UPGRADE_CLAW);
-		} else
-		{
-			ModLogger.logger.info( "Skipping registering clicking turtle, upgrade disabled");
 		}
-		
+		else {
+			KnightPeripherals.logger.info("Skipping registering clicking turtle, upgrade disabled");
+		}
+
 		// Smashing Turtle
-		if ( Loader.isModLoaded( ModIds.EX_NIHILO ) ) {
-			if (Config.enableTurtleHammer)
-			{
-				ModLogger.logger.info("Found Ex Nihilo, registering hammer peripheral");
-				ComputerCraftAPI.registerTurtleUpgrade( new TurtleHammer() );
+		if (Loader.isModLoaded(ModIds.EX_NIHILO)) {
+			if (Config.enableTurtleHammer) {
+				KnightPeripherals.logger.info("Found Ex Nihilo, registering hammer peripheral");
+				ComputerCraftAPI.registerTurtleUpgrade(new TurtleHammer());
 				list.add(Reference.UPGRADE_HAMMER);
-			} else
-			{
-				ModLogger.logger.info("Skipping registering smashing turtle, upgrade disabled");
 			}
-		} else {
-			ModLogger.logger.info( "Cannot find Ex Nihilo, skipping smashing turtle" );
+			else {
+				KnightPeripherals.logger.info("Skipping registering smashing turtle, upgrade disabled");
+			}
 		}
-		
+		else {
+			KnightPeripherals.logger.info("Cannot find Ex Nihilo, skipping smashing turtle");
+		}
+
 		// Explosive Turtle
-		if (Config.enableTurtleTnt)
-		{
-			ComputerCraftAPI.registerTurtleUpgrade( new TurtleTnt() );
+		if (Config.enableTurtleTnt) {
+			ComputerCraftAPI.registerTurtleUpgrade(new TurtleTnt());
 			list.add(Reference.UPGRADE_TNT);
-		} else
-		{
-			ModLogger.logger.info( "Skipping registering explosive turtle, upgrade disabled");
 		}
-		
+		else {
+			KnightPeripherals.logger.info("Skipping registering explosive turtle, upgrade disabled");
+		}
+
 		// Ranged Turtle
-		if (Config.enableTurtleBow)
-		{
-			ComputerCraftAPI.registerTurtleUpgrade( new TurtleBow() );
+		if (Config.enableTurtleBow) {
+			ComputerCraftAPI.registerTurtleUpgrade(new TurtleBow());
 			list.add(Reference.UPGRADE_BOW);
-		} else
-		{
-			ModLogger.logger.info( "Skipping registering ranged turtle, upgrade disabled");
 		}
-		
+		else {
+			KnightPeripherals.logger.info("Skipping registering ranged turtle, upgrade disabled");
+		}
+
 		// Crushing Turtle
-		if ( Loader.isModLoaded( ModIds.EX_COMPRESSUM ) ) {
-			if (Config.enableTurtleCompressedHammer)
-			{
-				ModLogger.logger.info("Found Ex Compressum, registering hammer peripheral");
-				ComputerCraftAPI.registerTurtleUpgrade( new TurtleHammerCompressed() );
+		if (Loader.isModLoaded(ModIds.EX_COMPRESSUM)) {
+			if (Config.enableTurtleCompressedHammer) {
+				KnightPeripherals.logger.info("Found Ex Compressum, registering hammer peripheral");
+				ComputerCraftAPI.registerTurtleUpgrade(new TurtleHammerCompressed());
 				list.add(Reference.UPGRADE_HAMMER_COMPRESSED);
-			} else
-			{
-				ModLogger.logger.info("Skipping registering crushing turtle, upgrade disabled");
 			}
-		} else {
-			ModLogger.logger.info( "Cannot find Ex Compressum, skipping crushing turtle" );
+			else {
+				KnightPeripherals.logger.info("Skipping registering crushing turtle, upgrade disabled");
+			}
 		}
-		
+		else {
+			KnightPeripherals.logger.info("Cannot find Ex Compressum, skipping crushing turtle");
+		}
+
 		// Mining Laser Turtle
-		if (Config.enableTurtleLaser)
-		{
-			ComputerCraftAPI.registerTurtleUpgrade( new TurtleLaser() );
+		if (Config.enableTurtleLaser) {
+			ComputerCraftAPI.registerTurtleUpgrade(new TurtleLaser());
 			list.add(Reference.UPGRADE_LASER);
-		} else
-		{
-			ModLogger.logger.info("Skipping registering mining laser turtle, upgrade disabled");
+		}
+		else {
+			KnightPeripherals.logger.info("Skipping registering mining laser turtle, upgrade disabled");
+		}
+
+		// Sensor Turtle
+		if (Config.enableTurtleSensor) {
+			ComputerCraftAPI.registerTurtleUpgrade(new TurtleSensor());
+			list.add(Reference.UPGRADE_SENSOR);
+		}
+		else {
+			KnightPeripherals.logger.info("Skipping registering sensor turtle, upgrade disabled");
 		}
 	}
 }
