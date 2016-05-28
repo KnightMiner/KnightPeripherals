@@ -21,7 +21,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 
 public class TaskClawClick implements ILuaTask {
-	
+
 	// data to inherit from PeripheralClaw
 	private ITurtleAccess turtle;
 	private TurtleSide side;
@@ -30,8 +30,9 @@ public class TaskClawClick implements ILuaTask {
 	private BlockPos pos;
 	private int fuelCost;
 	private Boolean sneaking;
-	
-	public TaskClawClick(ITurtleAccess turtle, TurtleSide side, World world, EnumFacing direction, BlockPos pos, Boolean sneaking, int fuelCost) {
+
+	public TaskClawClick(ITurtleAccess turtle, TurtleSide side, World world, EnumFacing direction, BlockPos pos,
+	        Boolean sneaking, int fuelCost) {
 		this.turtle = turtle;
 		this.side = side;
 		this.world = world;
@@ -42,71 +43,72 @@ public class TaskClawClick implements ILuaTask {
 	}
 
 	@Override
-	public Object[] execute()
-	throws LuaException {
-		
+	public Object[] execute() throws LuaException {
+
 		// grab some additional data before we get started
 		IBlockState state = world.getBlockState(pos);
 		Block block = state.getBlock();
 		EnumFacing face = direction.getOpposite();
 		float[] clickPoint = TurtleUtil.getCenterOfSide(face);
-		
+
 		// find the currently selected item/stack
 		IInventory inv = turtle.getInventory();
 		int slot = turtle.getSelectedSlot();
 		ItemStack stack = inv.getStackInSlot(slot);
-		
-		// if we have an ItemStack, get the item from that. We don't want a null pointer error
+
+		// if we have an ItemStack, get the item from that. We don't want a null
+		// pointer error
 		Item item = stack == null ? null : stack.getItem();
-		
+
 		// set up data for the fake player: ItemStack and position
-		FakePlayer fakePlayer = FakePlayerProvider.get( turtle );
+		FakePlayer fakePlayer = FakePlayerProvider.get(turtle);
 		fakePlayer.setCurrentItemOrArmor(0, stack);
 		fakePlayer.setSneaking(sneaking);
-		
+
 		// queue event, and cancel if the event is canceled
-		PlayerInteractEvent event = ForgeEventFactory.onPlayerInteract(fakePlayer, Action.RIGHT_CLICK_BLOCK, turtle.getWorld(), pos, face);
+		PlayerInteractEvent event = ForgeEventFactory.onPlayerInteract(fakePlayer, Action.RIGHT_CLICK_BLOCK,
+		        turtle.getWorld(), pos, face);
 		if (event.isCanceled()) {
-			return new Object[]{ false, "Click event canceled" };
+			return new Object[] { false, "Click event canceled" };
 		}
-		
+
 		// first try an item which is used before a block is activated
 		Boolean clicked = false;
 		if (item != null) {
-			clicked = item.onItemUseFirst(stack, fakePlayer, world, pos, face, clickPoint[0], clickPoint[1], clickPoint[2]);
+			clicked = item.onItemUseFirst(stack, fakePlayer, world, pos, face, clickPoint[0], clickPoint[1],
+			        clickPoint[2]);
 		}
-		
+
 		// next, try the block directly
-		if (!clicked)
-		{
-			clicked = block != null && block.onBlockActivated(world, pos, state, fakePlayer, face, clickPoint[0], clickPoint[1], clickPoint[2]);
+		if (!clicked) {
+			clicked = block != null && block.onBlockActivated(world, pos, state, fakePlayer, face, clickPoint[0],
+			        clickPoint[1], clickPoint[2]);
 		}
 		// if that did not work, try the item's main action
 		if (!clicked && (item != null)) {
 			clicked = item.onItemUse(stack, fakePlayer, world, pos, face, clickPoint[0], clickPoint[1], clickPoint[2]);
 		}
-		
-		TurtleAnimation animation = side == TurtleSide.Left ? TurtleAnimation.SwingLeftTool : TurtleAnimation.SwingRightTool;
+
+		TurtleAnimation animation = side == TurtleSide.Left ? TurtleAnimation.SwingLeftTool
+		        : TurtleAnimation.SwingRightTool;
 		turtle.playAnimation(animation);
-		
+
 		// if the ItemStack changed, replace it with the new version
 		ItemStack newStack = fakePlayer.getCurrentEquippedItem();
-		if (newStack == null || newStack.stackSize == 0)
-		{
+		if (newStack == null || newStack.stackSize == 0) {
 			inv.setInventorySlotContents(slot, null);
-		} else if (newStack != stack)
-		{
+		}
+		else if (newStack != stack) {
 			inv.setInventorySlotContents(slot, newStack);
 		}
-		
+
 		// If enabled, remove some fuel
 		// We already validated it earlier
-		if (fuelCost > 0 && turtle.isFuelNeeded())
-		{
+		if (fuelCost > 0 && turtle.isFuelNeeded()) {
 			turtle.consumeFuel(fuelCost);
 		}
-		
-		return new Object[]{ true, clicked };
+
+		return new Object[] { true, clicked };
 	}
 
 }

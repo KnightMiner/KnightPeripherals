@@ -11,11 +11,11 @@ import dan200.computercraft.api.turtle.TurtleCommandResult;
 import dan200.computercraft.api.turtle.TurtleSide;
 import dan200.computercraft.api.turtle.TurtleUpgradeType;
 import dan200.computercraft.api.turtle.TurtleVerb;
+import knightminer.knightperipherals.KnightPeripherals;
 import knightminer.knightperipherals.init.ModItems;
 import knightminer.knightperipherals.reference.Config;
 import knightminer.knightperipherals.reference.Reference;
 import knightminer.knightperipherals.turtles.peripherals.PeripheralClaw;
-import knightminer.knightperipherals.util.ModLogger;
 import knightminer.knightperipherals.util.TurtleUtil;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.item.ItemStack;
@@ -24,13 +24,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TurtleClaw implements ITurtleUpgrade
-{
-	private static final ItemStack stack = new ItemStack(ModItems.turtleClaw, 1);
-	
+public class TurtleClaw implements ITurtleUpgrade {
+	private static final ItemStack stack = new ItemStack(ModItems.turtleUpgrade, 1);
+
 	@Override
-	public int getLegacyUpgradeID()
-	{
+	public int getLegacyUpgradeID() {
 		return Reference.UPGRADE_LEGACY_CLAW;
 	}
 
@@ -40,31 +38,27 @@ public class TurtleClaw implements ITurtleUpgrade
 	}
 
 	@Override
-	public String getUnlocalisedAdjective()
-	{
+	public String getUnlocalisedAdjective() {
 		return "turtleUpgrade.claw";
 	}
 
 	@Override
-	public TurtleUpgradeType getType()
-	{
+	public TurtleUpgradeType getType() {
 		return TurtleUpgradeType.Peripheral;
 	}
-	
+
 	@Override
-	public ItemStack getCraftingItem()
-	{
-		if (Config.craftTurtleClaw)
-		{
+	public ItemStack getCraftingItem() {
+		if (Config.craftTurtleClaw) {
 			return stack;
-		} else
-		{
-			ModLogger.logger.info("Recipe for clicking turtle disabled");
+		}
+		else {
+			KnightPeripherals.logger.info("Recipe for clicking turtle disabled");
 			return null;
 		}
 	}
 
-    @SideOnly( Side.CLIENT )
+	@SideOnly(Side.CLIENT)
 	@Override
 	public Pair<IBakedModel, Matrix4f> getModel(ITurtleAccess turtle, TurtleSide side) {
 		IBakedModel model = TurtleUtil.getMesher().getItemModel(stack);
@@ -73,21 +67,16 @@ public class TurtleClaw implements ITurtleUpgrade
 	}
 
 	@Override
-	public IPeripheral createPeripheral(ITurtleAccess turtle, TurtleSide side)
-	{
+	public IPeripheral createPeripheral(ITurtleAccess turtle, TurtleSide side) {
 		return new PeripheralClaw(turtle, side);
 	}
 
 	@Override
-	public TurtleCommandResult useTool(ITurtleAccess turtle, TurtleSide side, TurtleVerb verb, EnumFacing direction)
-	{
+	public TurtleCommandResult useTool(ITurtleAccess turtle, TurtleSide side, TurtleVerb verb, EnumFacing direction) {
 		return null;
 	}
 
 	@Override
-	public void update(ITurtleAccess turtle, TurtleSide side)
-	{
+	public void update(ITurtleAccess turtle, TurtleSide side) {}
 
-	}
-	
 }

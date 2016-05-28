@@ -12,10 +12,10 @@ import dan200.computercraft.api.turtle.TurtleCommandResult;
 import dan200.computercraft.api.turtle.TurtleSide;
 import dan200.computercraft.api.turtle.TurtleUpgradeType;
 import dan200.computercraft.api.turtle.TurtleVerb;
+import knightminer.knightperipherals.KnightPeripherals;
 import knightminer.knightperipherals.reference.Config;
 import knightminer.knightperipherals.reference.Reference;
 import knightminer.knightperipherals.util.FakePlayerProvider;
-import knightminer.knightperipherals.util.ModLogger;
 import knightminer.knightperipherals.util.TurtleUtil;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -30,91 +30,79 @@ import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TurtleBow implements ITurtleUpgrade
-{
+public class TurtleBow implements ITurtleUpgrade {
 	private static final ItemStack stack = new ItemStack(Items.bow, 1);
-	
+
 	@Override
-	public int getLegacyUpgradeID()
-	{
+	public int getLegacyUpgradeID() {
 		return Reference.UPGRADE_LEGACY_BOW;
 	}
-	
+
 	@Override
-	public ResourceLocation getUpgradeID()
-	{
+	public ResourceLocation getUpgradeID() {
 		return new ResourceLocation(Reference.UPGRADE_BOW);
 	}
 
 	@Override
-	public String getUnlocalisedAdjective()
-	{
+	public String getUnlocalisedAdjective() {
 		return "turtleUpgrade.bow";
 	}
 
 	@Override
-	public TurtleUpgradeType getType()
-	{
+	public TurtleUpgradeType getType() {
 		return TurtleUpgradeType.Tool;
 	}
-	
+
 	@Override
-	public ItemStack getCraftingItem()
-	{
-		if (Config.craftTurtleBow)
-		{
+	public ItemStack getCraftingItem() {
+		if (Config.craftTurtleBow) {
 			return stack;
-		} else
-		{
-			ModLogger.logger.info("Recipe for ranged turtle disabled");
+		}
+		else {
+			KnightPeripherals.logger.info("Recipe for ranged turtle disabled");
 			return null;
 		}
 	}
 
 	@Override
-	public IPeripheral createPeripheral(ITurtleAccess turtle, TurtleSide side)
-	{
+	public IPeripheral createPeripheral(ITurtleAccess turtle, TurtleSide side) {
 		return null;
 	}
 
-	public TurtleCommandResult useTool(ITurtleAccess turtle, TurtleSide side, TurtleVerb verb, EnumFacing direction)
-	{
-		switch (verb)
-		{
+	public TurtleCommandResult useTool(ITurtleAccess turtle, TurtleSide side, TurtleVerb verb, EnumFacing direction) {
+		switch (verb) {
 			case Attack:
 				World world = turtle.getWorld();
 				// return 0 for down, 1 for up, or turtle facing otherwise
 				BlockPos pos = turtle.getPosition().offset(direction);
-				
+
 				// only fire the arrow into air or a liquid
-				if (!world.isAirBlock(pos) && !world.getBlockState(pos).getBlock().getMaterial().isLiquid())
-				{
+				if (!world.isAirBlock(pos) && !world.getBlockState(pos).getBlock().getMaterial().isLiquid()) {
 					return TurtleCommandResult.failure("Block at target");
 				}
-				
+
 				// find TNT to use in the selected slot
 				IInventory inv = turtle.getInventory();
 				int selected = turtle.getSelectedSlot();
-				ItemStack stack = inv.getStackInSlot( selected );
-				
+				ItemStack stack = inv.getStackInSlot(selected);
+
 				// if arrows are required and we don't have them, stop
-				if (Config.arrowsRequired && (stack == null || stack.getItem() != Items.arrow))
-				{
+				if (Config.arrowsRequired && (stack == null || stack.getItem() != Items.arrow)) {
 					return TurtleCommandResult.failure("No arrows found in slot");
 				}
-				
+
 				// get the directions for the player
-				// the arrow gets most of it's data automatically based on the player
-				// so lets just manipulate it rather than messing with all that data ourselves
+				// the arrow gets most of it's data automatically based on the
+				// player
+				// so lets just manipulate it rather than messing with all that
+				// data ourselves
 				FakePlayer fakePlayer = FakePlayerProvider.get(turtle);
 				float xrot = 0, yrot = 0;
 
-				// also get coordinates for the arrow while here to save on a switch
-				double x = pos.getX() + 0.5D,
-						y = pos.getY() + 0.5D,
-						z = pos.getZ() + 0.5D;
-				switch (direction)
-				{
+				// also get coordinates for the arrow while here to save on a
+				// switch
+				double x = pos.getX() + 0.5D, y = pos.getY() + 0.5D, z = pos.getZ() + 0.5D;
+				switch (direction) {
 					case DOWN:
 						xrot = 90.0F;
 						y += 0.5D;
@@ -142,60 +130,60 @@ public class TurtleBow implements ITurtleUpgrade
 				}
 				fakePlayer.rotationYaw = yrot;
 				fakePlayer.rotationPitch = xrot;
-				
+
 				EntityArrow arrow = new EntityArrow(world, fakePlayer, 1.0F);
-				
+
 				// boost the arrow to Power I
-				// makes the ranged turtle a bit closer to the melee turtle as we are also consuming items
+				// makes the ranged turtle a bit closer to the melee turtle as
+				// we are also consuming items
 				arrow.setDamage(arrow.getDamage() + 1);
 				arrow.setIsCritical(true);
-				
-				// set the arrow's position, so it does not come oddly out of the top of the turtle
-				arrow.setPosition(x,y,z);
-				
-				// if arrows are required, decrease the stack size and delete the stack if needed
-				if (Config.arrowsRequired)
-				{
+
+				// set the arrow's position, so it does not come oddly out of
+				// the top of the turtle
+				arrow.setPosition(x, y, z);
+
+				// if arrows are required, decrease the stack size and delete
+				// the stack if needed
+				if (Config.arrowsRequired) {
 					stack.stackSize -= 1;
-					if (stack.stackSize == 0)
-					{
+					if (stack.stackSize == 0) {
 						inv.setInventorySlotContents(selected, null);
 					}
 				}
-				
+
 				// play a sound and spawn the arrow
-				if (!world.isRemote)
-				{
-					world.playSoundAtEntity(fakePlayer, "random.bow", 1.0F, 1.0F / (world.rand.nextFloat() * 0.4F + 1.2F) + 0.5F);
+				if (!world.isRemote) {
+					world.playSoundAtEntity(fakePlayer, "random.bow", 1.0F,
+					        1.0F / (world.rand.nextFloat() * 0.4F + 1.2F) + 0.5F);
 					world.spawnEntityInWorld(arrow);
 				}
-				
+
 				// return success, as the arrow was fired
 				return TurtleCommandResult.success();
 			case Dig:
 				return TurtleCommandResult.failure("No tool to dig with");
-				
+
 			// should never happen
-			default: 
+			default:
 				return TurtleCommandResult.failure("An unknown error has occurred, please tell the mod author");
 		}
 	}
-	
-    @SideOnly( Side.CLIENT )
+
+	@SideOnly(Side.CLIENT)
 	@Override
-	public Pair<IBakedModel, Matrix4f> getModel(ITurtleAccess turtle, TurtleSide side)
-	{
+	public Pair<IBakedModel, Matrix4f> getModel(ITurtleAccess turtle, TurtleSide side) {
 		IBakedModel model = TurtleUtil.getMesher().getItemModel(stack);
 		Matrix4f transform = TurtleUtil.getTransforms(side);
 
 		// rotate the matrix 90 degrees on the Y axis
-		Matrix3f angle = new Matrix3f( 0.0F, 0.0F, -1.0F, 0.0F, 1.0F, 0.0F, 1.0F, 0.0F, 0.0F );
+		Matrix3f angle = new Matrix3f(0.0F, 0.0F, -1.0F, 0.0F, 1.0F, 0.0F, 1.0F, 0.0F, 0.0F);
 		transform.setRotation(angle);
 		transform.m23 -= 1.0F;
 		return Pair.of(model, transform);
 	}
 
 	@Override
-	public void update(ITurtleAccess turtle, TurtleSide side){}
+	public void update(ITurtleAccess turtle, TurtleSide side) {}
 
 }

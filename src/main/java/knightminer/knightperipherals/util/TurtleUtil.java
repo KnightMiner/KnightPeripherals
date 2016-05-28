@@ -22,13 +22,17 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TurtleUtil {
-	
+
 	/**
 	 * Adds an item to a turtle's inventory by finding the first available slot
-	 * Credit: austinv11
-	 * Updated to 1.8 on 2016/2/2
-	 * @param turtle The turtle to add items to
-	 * @param stack ItemStack to add to the inventory
+	 * <p>
+	 * Updated to 1.8 on 2016/2/2 and modified again on 2016/4/3
+	 * 
+	 * @author austinv11
+	 * @param turtle
+	 *        The turtle to add items to
+	 * @param stack
+	 *        ItemStack to add to the inventory
 	 */
 	public static void addToInv(ITurtleAccess turtle, ItemStack stack) {
 		boolean drop = true;
@@ -40,13 +44,15 @@ public class TurtleUtil {
 				drop = false;
 				break;
 			}
-			if (currentStack.isStackable() && currentStack.isItemEqual(stack)) {
+			if (currentStack.isStackable() && currentStack.isItemEqual(stack)
+			        && ItemStack.areItemStackTagsEqual(currentStack, stack)) {
 				int space = currentStack.getMaxStackSize() - currentStack.stackSize;
 				if (stack.stackSize > space) {
 					currentStack.stackSize = currentStack.getMaxStackSize();
 					stack.stackSize -= space;
 					drop = true;
-				} else {
+				}
+				else {
 					currentStack.stackSize += stack.stackSize;
 					stack.stackSize = 0;
 					drop = false;
@@ -57,13 +63,15 @@ public class TurtleUtil {
 		if (drop) {
 			EnumFacing dir = turtle.getDirection();
 			BlockPos pos = turtle.getPosition().offset(dir);
-			turtle.getWorld().spawnEntityInWorld(new EntityItem(turtle.getWorld(), pos.getX(), pos.getY(), pos.getZ(), stack.copy()));
+			turtle.getWorld().spawnEntityInWorld(
+			        new EntityItem(turtle.getWorld(), pos.getX(), pos.getY(), pos.getZ(), stack.copy()));
 		}
 	}
-	
+
 	/**
 	 * Adds a list of items to the turtle's inventory
-	 * Credit: austinv11
+	 * 
+	 * @author austinv11
 	 * @param list
 	 * @param turtle
 	 */
@@ -72,13 +80,18 @@ public class TurtleUtil {
 			addToInv(turtle, item);
 		}
 	}
-	
+
 	/**
 	 * Gets the closest entity to a turtle
+	 * <p>
 	 * Modified from functions by austinv11 on 2016/2/2
-	 * @param turtle Turtle calling the command
-	 * @param player Fake player
-	 * @param dir EnumFacing of the turtle
+	 * 
+	 * @param turtle
+	 *        Turtle calling the command
+	 * @param player
+	 *        Fake player
+	 * @param dir
+	 *        EnumFacing of the turtle
 	 * @return Nearest entity to the turtle
 	 */
 	public static Entity getClosestEntity(ITurtleAccess turtle, FakePlayer player, EnumFacing dir) {
@@ -86,10 +99,10 @@ public class TurtleUtil {
 		int x = pos.getX();
 		int y = pos.getY();
 		int z = pos.getZ();
-		
-		AxisAlignedBB box = new AxisAlignedBB(x, y, z, x+1.0D, y+1.0D, z+1.0D);
+
+		AxisAlignedBB box = new AxisAlignedBB(x, y, z, x + 1.0D, y + 1.0D, z + 1.0D);
 		List<Entity> entities = turtle.getWorld().getEntitiesWithinAABBExcludingEntity(player, box);
-		
+
 		Vec3 from = new Vec3(player.posX, player.posY, player.posZ);
 		Entity returnVal = null;
 		double lastDistance = Double.MAX_VALUE;
@@ -100,11 +113,13 @@ public class TurtleUtil {
 		}
 		return returnVal;
 	}
-	
+
 	/**
 	 * Turns an entities drops into ItemStacks
-	 * Credit: austinv11
-	 * @param drops Items that dropped from the entity
+	 * 
+	 * @author austinv11
+	 * @param drops
+	 *        Items that dropped from the entity
 	 * @return Entity drops as ItemStacks
 	 */
 	public static List<ItemStack> entityItemsToItemStack(List<EntityItem> drops) {
@@ -114,55 +129,62 @@ public class TurtleUtil {
 		}
 		return stacks;
 	}
-	
+
 	/**
 	 * Finds the center to use for clicking a block
-	 * Credit: Cypher121, modified on 2016/2/5
-	 * @param dir EnumFacing which is being clicked from
+	 * 
+	 * @author Cypher121, modified on 2016/2/5
+	 * 
+	 * @param dir
+	 *        EnumFacing which is being clicked from
 	 * @return a Vector3f of the location
 	 */
 	public static float[] getCenterOfSide(EnumFacing dir) {
 		switch (dir) {
 			case UP:
-			  return new float[]{ 0.5f, 1f, 0.5f };
+				return new float[] { 0.5f, 1f, 0.5f };
 			case DOWN:
-				return new float[]{ 0.5f, 0f, 0.5f};
+				return new float[] { 0.5f, 0f, 0.5f };
 			case NORTH:
-				return new float[]{ 0.5f, 0.5f, 0f};
+				return new float[] { 0.5f, 0.5f, 0f };
 			case SOUTH:
-				return new float[]{ 0.5f, 0.5f, 1f};
+				return new float[] { 0.5f, 0.5f, 1f };
 			case WEST:
-				return new float[]{ 0f, 0.5f, 0.5f};
+				return new float[] { 0f, 0.5f, 0.5f };
 			case EAST:
-				return new float[]{ 1f, 0.5f, 0.5f};
-		default:
-			return null;
+				return new float[] { 1f, 0.5f, 0.5f };
+			default:
+				return null;
 		}
 	}
 
 	@SideOnly(Side.CLIENT)
 	private static ItemModelMesher mesher;
+
 	/**
 	 * Gets the item model mesher
-	 * Credit: SquidDev
+	 * 
+	 * @author SquidDev
 	 * @return
 	 */
 	@SideOnly(Side.CLIENT)
 	public static ItemModelMesher getMesher() {
 		ItemModelMesher instance = mesher;
-		if (instance == null) instance = mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
+		if (instance == null)
+			instance = mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
 		return instance;
 	}
-	
+
 	/**
-	 * Get item transforms data
-	 * Credit: SquidDev
-	 * @param side TurtleSide containing the tool or model
+	 * Get item transforms data Credit: SquidDev
+	 * 
+	 * @param side
+	 *        TurtleSide containing the tool or model
 	 * @return Matrix4f of the turtle transforms
 	 */
-	public static Matrix4f getTransforms(TurtleSide side)
-	{
+	public static Matrix4f getTransforms(TurtleSide side) {
 		float xOffset = side == TurtleSide.Left ? -0.40625F : 0.40625F;
-		return new Matrix4f(0.0F, 0.0F, -1.0F, 1.0F + xOffset, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, -1.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 1.0F);
+		return new Matrix4f(0.0F, 0.0F, -1.0F, 1.0F + xOffset, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, -1.0F, 0.0F, 1.0F, 0.0F,
+		        0.0F, 0.0F, 1.0F);
 	}
 }

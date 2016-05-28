@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import com.google.common.base.Function;
 
+import knightminer.knightperipherals.KnightPeripherals;
 import knightminer.knightperipherals.reference.Reference;
-import knightminer.knightperipherals.util.ModLogger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -25,23 +25,26 @@ public class ModelLoader {
 		loadModel(event, "turtle_tnt_left");
 		loadModel(event, "turtle_tnt_right");
 	}
-	
-	/*
-	 * Credit: SquidDev
+
+	/**
+	 * @author SquidDev
 	 */
 	@SideOnly(Side.CLIENT)
 	private void loadModel(ModelBakeEvent event, String name) {
 		try {
 			IModel e = event.modelLoader.getModel(new ResourceLocation(Reference.RESOURCE_LOCATION, "block/" + name));
-			IFlexibleBakedModel bakedModel = e.bake(e.getDefaultState(), DefaultVertexFormats.ITEM, new Function<ResourceLocation, TextureAtlasSprite>() {
-				@Override
-				public TextureAtlasSprite apply(ResourceLocation location) {
-					return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString());
-				}
-			});
-			event.modelRegistry.putObject(new ModelResourceLocation(Reference.RESOURCE_LOCATION + ":" + name, "inventory"), bakedModel);
-		} catch (IOException e) {
-			ModLogger.logger.error("Could not load model: " + name, e);
+			IFlexibleBakedModel bakedModel = e.bake(e.getDefaultState(), DefaultVertexFormats.ITEM,
+			        new Function<ResourceLocation, TextureAtlasSprite>() {
+				        @Override
+				        public TextureAtlasSprite apply(ResourceLocation location) {
+					        return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString());
+				        }
+			        });
+			event.modelRegistry.putObject(
+			        new ModelResourceLocation(Reference.RESOURCE_LOCATION + ":" + name, "inventory"), bakedModel);
+		}
+		catch (IOException e) {
+			KnightPeripherals.logger.error("Could not load model: " + name, e);
 		}
 	}
 }
