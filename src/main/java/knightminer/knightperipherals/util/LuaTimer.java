@@ -35,9 +35,13 @@ public class LuaTimer {
 				Entry<IComputerAccess, Integer[]> timer = iterator.next();
 				Integer[] data = timer.getValue();
 				data[0] -= 1;
-				if (data[0] < 1) { // check less than rather than equals just in
-				                   // case
-					timer.getKey().queueEvent(TIMER_EVENT, new Object[] { TIMER_TOKEN + data[1] });
+				if (data[0] < 1) { // check less than rather than equals just in case
+					try {
+						timer.getKey().queueEvent(TIMER_EVENT, new Object[] { TIMER_TOKEN + data[1] });
+					}
+					catch (RuntimeException e) { // Peripheral detached after timer started
+						continue; // Ignore exception
+					}
 					iterator.remove();
 				}
 				else {
