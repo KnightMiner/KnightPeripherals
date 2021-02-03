@@ -2,6 +2,10 @@ buildscript {
     repositories {
         mavenCentral()
         maven {
+            name = "central"
+            url = "https://repo1.maven.org/maven2/"
+        }
+        maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
@@ -38,6 +42,10 @@ minecraft {
 }
 
 repositories {
+    maven  {
+        name = "central"
+        url = "https://repo1.maven.org/maven2/"
+    }
     maven {
         name = "Chicken-Bones"
         url = "http://chickenbones.net/maven"
@@ -71,11 +79,11 @@ processResources
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-                
+
         // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
-        
+
     // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'

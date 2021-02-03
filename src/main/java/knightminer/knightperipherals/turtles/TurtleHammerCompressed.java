@@ -24,7 +24,7 @@ public class TurtleHammerCompressed extends TurtleHammer {
 	// Reward list
 	@Override
 	protected Collection<Smashable> getRewards(Block block, int meta) {
-		return CompressedHammerRegistry.getRewards(block, meta);
+		return CompressedHammerRegistry.getSmashables(block, meta);
 	}
 
 	// Config boolean

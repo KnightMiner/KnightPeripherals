@@ -10,6 +10,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.peripheral.IComputerAccess;
+import knightminer.knightperipherals.KnightPeripherals;
 
 public class LuaTimer {
 	private static final String TIMER_EVENT = "computer_timer";
@@ -35,9 +36,14 @@ public class LuaTimer {
 				Entry<IComputerAccess, Integer[]> timer = iterator.next();
 				Integer[] data = timer.getValue();
 				data[0] -= 1;
-				if (data[0] < 1) { // check less than rather than equals just in
-				                   // case
-					timer.getKey().queueEvent(TIMER_EVENT, new Object[] { TIMER_TOKEN + data[1] });
+				if (data[0] < 1) { // check less than rather than equals just in case
+					try {
+						timer.getKey().queueEvent(TIMER_EVENT, new Object[] { TIMER_TOKEN + data[1] });
+					}
+					catch (RuntimeException e) { // Peripheral detached after timer started
+						KnightPeripherals.logger.warn("LuaTimer expired after peripheral detached. CC Exception:" + e.getMessage());
+						continue;
+					}
 					iterator.remove();
 				}
 				else {
